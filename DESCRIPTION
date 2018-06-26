@@ -1,11 +1,37 @@
-Package: owos
+Package: EventDetectR
+Version: 0.1
+Date: 2018-06-26
+Title: Time Series Missing Value Imputation
+Description: Imputation (replacement) of missing values 
+             in univariate time series. 
+             Offers several imputation functions
+             and missing data plots. 
+             Available imputation algorithms include: 
+            'Mean', 'LOCF', 'Interpolation', 
+            'Moving Average', 'Seasonal Decomposition', 
+            'Kalman Smoothing on Structural Time Series models',
+            'Kalman Smoothing on ARIMA models'.
+Author: Frederik Rehbach [aut, cre],
+Steffen Moritz [aut] (<https://orcid.org/0000-0002-0085-1804>)
+Authors@R: 
+  c(
+  person("Frederik", "Rehbach", email="frederik.re@gmail.com", role=c("aut", "cre")),
+  person("Steffen", "Moritz", email="steffen.moritz10@gmail.com", role=c("aut"), comment = c(ORCID = "0000-0002-0085-1804"))
+  )
+Maintainer: Frederik Rehbach <frederik.re@gmail.com>
+LazyData: yes
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
-Encoding: UTF-8
-LazyData: true
+ByteCompile: TRUE
+BugReports: https://github.com/frehbach/EventDetectR/issues
+URL: https://github.com/frehbach/EventDetectR
+Repository: CRAN
+Depends:
+    R (>= 3.0.1)
+Imports:
+    imputeTS,
+    forecast
+Suggests:
+    testthat, utils
+License: GPL-3
+VignetteBuilder: utils
+RoxygenNote: 6.0.1
