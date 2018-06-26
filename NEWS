@@ -1,0 +1,2 @@
+Abfrage ob buildModelAlgo und Nahandler etc. type closure sind.
+Falls ja dann direkt als model verwenden nicht über string abfrage gehen.
