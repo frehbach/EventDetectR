@@ -1,10 +1,13 @@
 
 #' build Event Detection Model
 #'
-#' @param data
-#' @param control
+#' @param x data
+#' @param dataPrepators string or vector of strings, which preparators to use
+#' @param dataPreparationControl control list for data preparators
+#' @param buildModelAlgo string name of modelling algo
+#' @param buildModelControl control list for modelling algo
 #'
-#' @return
+#' @return model fittedModel
 #' @export
 #'
 #' @import imputeTS
@@ -34,7 +37,7 @@ buildEDModel <- function(x,
     ##
     if(dataPrepators %in% supportedImputeTS){
         substr(dataPrepators, nchar("ImputeTS") + 1, nchar(dataPrepators))
-        model <- preparator_imputeTS(data, modelStr, dataPreparationControl)
+        model <- preparator_imputeTS(data, dataPreparationControl)
     }
 
     ## Model Fitting

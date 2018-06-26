@@ -1,14 +1,15 @@
 
-#' Title
+#' Fitting Forecast Models
 #'
-#' @param data
-#' @param control
+#' @param x data
+#' @param strName name of the Forecast model that shall be fitted
+#' @param control control list with settings
 #'
-#' @return
+#' @return fitted Forecast model
 #' @export
 #'
 #' @import forecast
-model_Forecast <- function(data, control){
+model_Forecast <- function(x, strName, control){
     if(ncol(data > 1)){
         modelList <- list()
         for(i in 1:ncol(data)){
@@ -25,6 +26,12 @@ model_Forecast <- function(data, control){
     }
 }
 
+#' Predict Univariate Models Forecast Package
+#'
+#' @param object fitted model that shall be predicted
+#'
+#' @return predicted value
+#' @export
 predict.UnivariateForecast <- function(object){
-    predictUnivariateForecast(object)
+    ## Implementation missing
 }
