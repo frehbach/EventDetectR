@@ -2,6 +2,7 @@
 #' Data Preparation with Impute TS
 #'
 #' @param x data to process
+#' @param prepStr string of preparator name to use
 #' @param control control parameters, extra settings
 #'
 #' @return x prepared data

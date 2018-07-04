@@ -9,6 +9,8 @@ preparator_imputeTS(x, prepStr, control)
 \arguments{
 \item{x}{data to process}
 
+\item{prepStr}{string of preparator name to use}
+
 \item{control}{control parameters, extra settings}
 }
 \value{
