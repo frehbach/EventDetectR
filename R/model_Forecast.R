@@ -9,18 +9,23 @@
 #' @export
 #'
 #' @import forecast
-model_Forecast <- function(x, strName, control){
-    if(ncol(data > 1)){
+model_UnivariateForecast <- function(x, strName, control){
+    ## Select Model by String
+    model <- NULL
+    if(strName == "ETS") prep <- forecast::ets
+
+    if(ncol(x) > 1){
         modelList <- list()
-        for(i in 1:ncol(data)){
-            control$y <- data[,i]
-            modelList[[i]] <- do.call(forecast::ets,control)
+        for(i in 1:ncol(x)){
+            control$y <- x[,i]
+            modelList[[paste0("model",i)]] <- do.call(forecast::ets,control)
         }
+        model$modelList <- modelList
         class(model) <- "UnivariateForecast"
-        return(modelList)
+        return(model)
     }else{
-        control$y <- data
-        model <- list(do.call(forecast::ets,control))
+        control$y <- x
+        model$modelList <- do.call(forecast::ets,control)
         class(model) <- "UnivariateForecast"
         return(model)
     }
@@ -35,5 +40,9 @@ model_Forecast <- function(x, strName, control){
 #' @import stats
 #' @export
 predict.UnivariateForecast <- function(object,...){
-    ## Implementation missing
+    predictions <- matrix(, nrow=10,ncol=length(object$modelList))
+    for(i in 1:length(object$modelList)){
+        predictions[,i] <- as.data.frame(predict(object$modelList[[i]]))[,2]
+    }
+    predictions
 }

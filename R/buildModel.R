@@ -12,7 +12,7 @@
 #'
 #' @import imputeTS
 buildEDModel <- function(x,
-                         dataPrepators = c("ImputeTSInterpolation","uzvu","vueu"),
+                         dataPrepators = "ImputeTSInterpolation",
                          dataPreparationControl = list(),
                          buildModelAlgo = "ForecastETS",
                          buildModelControl = list()){
@@ -20,31 +20,32 @@ buildEDModel <- function(x,
     ##InputCheck
     ##
     ##
-    ##
-    ##
     allSupportedPreparations <- list(
         supportedImputeTS <- c("ImputeTSInterpolation")
     )
     allSupportedModels <- list(
-        supportedForeCastModels <- c("ForecastETS")
+        supportedUnivariateForeCastModels <- c("ForecastETS")
     )
     if(!(buildModelAlgo %in% unlist(allSupportedModels))){
       stop("The specified model is not supported, please check your input for 'buildModelAlgo'")
+    }
+    if(!(dataPrepators %in% unlist(allSupportedPreparations))){
+        stop("The specified preparator is not supported, please check your input for 'dataPreparators'")
     }
 
 
     ## Data Preparators & NA Handling
     ##
     if(dataPrepators %in% supportedImputeTS){
-        substr(dataPrepators, nchar("ImputeTS") + 1, nchar(dataPrepators))
-        model <- preparator_imputeTS(data, dataPreparationControl)
+        prepStr <- substr(dataPrepators, nchar("ImputeTS") + 1, nchar(dataPrepators))
+        x <- preparator_imputeTS(x, prepStr, dataPreparationControl)
     }
 
     ## Model Fitting
     ##
-    if(buildModelAlgo %in% supportedForeCastModels){
-        substr(buildModelAlgo, nchar("Forecast") + 1, nchar(buildModelAlgo))
-        model <- model_Forecast(data, modelStr, buildModelControl)
+    if(buildModelAlgo %in% supportedUnivariateForeCastModels){
+        modelStr <- substr(buildModelAlgo, nchar("Forecast") + 1, nchar(buildModelAlgo))
+        model <- model_UnivariateForecast(x, modelStr, buildModelControl)
     }
 
     return(model)
