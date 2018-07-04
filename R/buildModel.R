@@ -20,6 +20,9 @@ buildEDModel <- function(x,
     ##InputCheck
     ##
     ##
+    if(!is.data.frame(x)){
+        stop("x has to be a data.frame")
+    }
     allSupportedPreparations <- list(
         supportedImputeTS <- c("ImputeTSInterpolation")
     )
