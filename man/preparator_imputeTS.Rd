@@ -4,7 +4,7 @@
 \alias{preparator_imputeTS}
 \title{Data Preparation with Impute TS}
 \usage{
-preparator_imputeTS(x, control)
+preparator_imputeTS(x, prepStr, control)
 }
 \arguments{
 \item{x}{data to process}

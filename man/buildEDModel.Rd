@@ -4,7 +4,7 @@
 \alias{buildEDModel}
 \title{build Event Detection Model}
 \usage{
-buildEDModel(x, dataPrepators = c("ImputeTSInterpolation", "uzvu", "vueu"),
+buildEDModel(x, dataPrepators = "ImputeTSInterpolation",
   dataPreparationControl = list(), buildModelAlgo = "ForecastETS",
   buildModelControl = list())
 }
