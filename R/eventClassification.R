@@ -10,10 +10,10 @@ eventClassification <- function(object, newData, ...) {
     ##Error checks
     ##
     if(is.null(object$predictions)){
-        edError("Predictions Object was empty when trying to classify events")
+        stop("Predictions Object was empty when trying to classify events")
     }
     if(!(all(dim(object$predictions) == dim(newData)))){
-        edError("Predictions dimensions do not match newData dimensions when tying to classify events")
+        stop("Predictions dimensions do not match newData dimensions when tying to classify events")
     }
 
     ## Apply Normalization -----

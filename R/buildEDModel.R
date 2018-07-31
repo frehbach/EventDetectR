@@ -42,19 +42,19 @@ buildEDModel <- function(x,
     ##      General Checks for Correct Data Types -----------------------
     ##
     if(is.null(x)){
-        edError("no data was specified for variable x")
+        stop("no data was specified for variable x")
     }
     if(!is.data.frame(x)){
-        edError("x has to be a data.frame")
+        stop("x has to be a data.frame")
     }
     if(!all(apply(x,2,is.numeric))){
-        edError("one or more columns in x contain non-numeric data")
+        stop("one or more columns in x contain non-numeric data")
     }
     if(!typeof(dataPrepators) == "character"){
-        edError("dataPreparators has to be of type character or vector of character")
+        stop("dataPreparators has to be of type character or vector of character")
     }
     if(!typeof(postProcessors) == "character"){
-        edError("postProcessors has to be of type character or vector of character")
+        stop("postProcessors has to be of type character or vector of character")
     }
 
     ##      Lists of the supported Models/Pre-/Postprocessors ------------
@@ -76,19 +76,19 @@ buildEDModel <- function(x,
     ##      Check if modelAlgo is supported / does not have typos in it ----
     ##
     if(!(buildModelAlgo %in% unlist(allSupportedModels))){
-      edError("The specified model is not supported, please check your input for 'buildModelAlgo'")
+      stop("The specified model is not supported, please check your input for 'buildModelAlgo'")
     }
 
     ##      Check each dataPreparator, multiple might be provided ----
     ##
     if(length(dataPrepators) <= 1){
         if(!(dataPrepators %in% unlist(allSupportedPreparations))){
-            edError("The specified preparator is not supported, please check your input for 'dataPreparators'")
+            stop("The specified preparator is not supported, please check your input for 'dataPreparators'")
         }
     }else{
         for(p in dataPrepators){
             if(!(p %in% unlist(allSupportedPreparations))){
-                edError("The specified preparator is not supported, please check your input for 'dataPreparators'")
+                stop("The specified preparator is not supported, please check your input for 'dataPreparators'")
             }
         }
     }
@@ -98,19 +98,31 @@ buildEDModel <- function(x,
     ## -----------------------
     if(length(dataPrepators) <= 1){
         if(!(dataPrepators %in% unlist(allSupportedPreparations))){
-            edError("The specified preparator is not supported, please check your input for 'dataPreparators'")
+            stop("The specified preparator is not supported, please check your input for 'dataPreparators'")
         }
     }else{
         for(p in dataPrepators){
             if(!(p %in% unlist(allSupportedPreparations))){
-                edError("The specified preparator is not supported, please check your input for 'dataPreparators'")
+                stop("The specified preparator is not supported, please check your input for 'dataPreparators'")
             }
         }
     }
 
     ## Apply Normalization --------------
     ##
-    ## TODO: This should generate a warning if not enough variance exists in any variable so that scaling only results in NAs
+    ## Variables which have no variance will be removed!
+    ## A warning is generated if this happens
+    ##
+    ## If all variables have 0 variance, an error is thrown
+    zeroVarianceVars <- (apply(x,2,sd) == 0)
+
+    if(sum(zeroVarianceVars) == ncol(x)){
+        stop("There is no variance in your data set, event detection is not possible")
+    }else if(sum(zeroVarianceVars) > 0){
+        warning("Some of the variables in your data set contain no variance,
+                  they will be ignored in the event detection process")
+    }
+    x <- x[,!zeroVarianceVars]
     x <- scale(x)
 
     ## -----------------------
@@ -166,5 +178,8 @@ buildEDModel <- function(x,
     model$normalization$scaleCenter <- attr(x,"scaled:center")
     model$normalization$scaleSD <- attr(x,"scaled:scale")
 
+    ## Add remark for removed variables
+    ##
+    model$removedVariables <- list(names(x)[zeroVarianceVars])
     return(model)
 }

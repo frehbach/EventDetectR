@@ -1,16 +1,24 @@
 context("buildModel")
 
-test_that("Error for string input",
+test_that("Errors wrong inputs",
           {
               ## Check for Wrong Data input
               x <- "SomeString"
               expect_error(buildEDModel(x), regexp = "x has to be a data.frame")
 
-              x <- stationBData[1:500,]
+              x <- stationBData[1500:2000,]
               expect_error(buildEDModel(x), regexp = "non-numeric data")
 
+              # no variance in data
+              x <- stationBData[1:500,-1]
+              expect_warning(m <- buildEDModel(x), regexp = "data set contain no variance")
+              expect_equal(ncol(predict(m)),11)
+
+              x <- stationBData[1:500,c(5,5), drop = F]
+              expect_error(buildEDModel(x), regexp = "There is no variance in your data set")
+
               ## Check for wrong model or preparator names
-              x <- stationBData[,-1]
+              x <- stationBData[1000:2000,-1]
               expect_error(buildEDModel(x, dataPrepators = "SomeWrongPrep")
                            , regexp = "not supported")
               expect_error(buildEDModel(x, buildModelAlgo = "SomeWrongAlgo")
