@@ -34,15 +34,31 @@ model_UnivariateForecast <- function(x, strName, control){
 #' Predict Univariate Models Forecast Package
 #'
 #' @param object fitted model that shall be predicted
+#' @param newData data.frame with newData that is compared to the models forecast to judge if events occured or not
 #' @param ... additional parameters
 #'
 #' @return predicted value
 #' @import stats
 #' @export
-predict.UnivariateForecast <- function(object,...){
-    predictions <- matrix(, nrow=10,ncol=length(object$modelList))
-    for(i in 1:length(object$modelList)){
-        predictions[,i] <- as.data.frame(predict(object$modelList[[i]]))[,2]
+predict.UnivariateForecast <- function(object,newData = NULL, ...){
+    if(!is.null(newData)){
+        dataLength <- nrow(newData)
+    }else{
+        dataLength <- 10
     }
-    predictions
+    predictions <- matrix(, nrow=dataLength,ncol=length(object$modelList))
+    for(i in 1:length(object$modelList)){
+        predictions[,i] <- as.data.frame(forecast(object$modelList[[i]], h = dataLength))[,2]
+    }
+
+    object$predictions <- predictions
+
+    ## If no newData is given, then only return the model predictions, no need for eventClassification
+    if(is.null(newData)){
+        return(predictions)
+    }else{
+        ## Call ED standard eventClassification Method
+        Event <- eventClassification(object,newData,...)
+        return(cbind(newData,Event))
+    }
 }

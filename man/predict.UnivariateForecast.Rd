@@ -4,10 +4,12 @@
 \alias{predict.UnivariateForecast}
 \title{Predict Univariate Models Forecast Package}
 \usage{
-\method{predict}{UnivariateForecast}(object, ...)
+\method{predict}{UnivariateForecast}(object, newData = NULL, ...)
 }
 \arguments{
 \item{object}{fitted model that shall be predicted}
+
+\item{newData}{data.frame with newData that is compared to the models forecast to judge if events occured or not}
 
 \item{...}{additional parameters}
 }

@@ -6,8 +6,11 @@ test_that("Error for string input",
               x <- "SomeString"
               expect_error(buildEDModel(x), regexp = "x has to be a data.frame")
 
-              ## Check for wrong model or preparator names
               x <- stationBData[1:500,]
+              expect_error(buildEDModel(x), regexp = "non-numeric data")
+
+              ## Check for wrong model or preparator names
+              x <- stationBData[,-1]
               expect_error(buildEDModel(x, dataPrepators = "SomeWrongPrep")
                            , regexp = "not supported")
               expect_error(buildEDModel(x, buildModelAlgo = "SomeWrongAlgo")
