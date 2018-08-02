@@ -1,6 +1,5 @@
-Abfrage ob buildModelAlgo und Nahandler etc. type closure sind.
-Falls ja dann direkt als model verwenden nicht über string abfrage gehen.
+TODO / Upcoming:
+-
 
-
-
-Hallo Fred2
+NEWS:
+V0.3.0 - Added eventDetect automatic movingWindow based event detection over a whole dataset
