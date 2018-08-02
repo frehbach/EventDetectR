@@ -6,26 +6,28 @@
 #' @param control control list with settings
 #'
 #' @return fitted Forecast model
-#' @export
+#' @keywords internal
 #'
 #' @import forecast
 model_UnivariateForecast <- function(x, strName, control){
     ## Select Model by String
     model <- NULL
-    if(strName == "ETS") prep <- forecast::ets
+    if(strName == "ETS") modellingAlgo <- forecast::ets
+    if(strName == "Arima") modellingAlgo <- forecast::Arima
+    if(strName == "Bats") modellingAlgo <- forecast::bats
 
     if(ncol(x) > 1){
         modelList <- list()
         for(i in 1:ncol(x)){
             control$y <- x[,i]
-            modelList[[paste0("model",i)]] <- do.call(forecast::ets,control)
+            modelList[[paste0("model",i)]] <- do.call(modellingAlgo,control)
         }
         model$modelList <- modelList
         class(model) <- "UnivariateForecast"
         return(model)
     }else{
         control$y <- x
-        model$modelList <- do.call(forecast::ets,control)
+        model$modelList <- do.call(modellingAlgo,control)
         class(model) <- "UnivariateForecast"
         return(model)
     }
@@ -39,7 +41,7 @@ model_UnivariateForecast <- function(x, strName, control){
 #'
 #' @return predicted value
 #' @import stats
-#' @export
+#' @keywords internal
 predict.UnivariateForecast <- function(object,newData = NULL, ...){
     if(!is.null(newData)){
         dataLength <- nrow(newData)

@@ -6,7 +6,7 @@
 #' @param control control parameters, extra settings
 #'
 #' @return x prepared data
-#' @export
+#' @keywords internal
 #'
 #' @import imputeTS
 preparator_imputeTS <- function(x, prepStr, control){

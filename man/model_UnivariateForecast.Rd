@@ -19,3 +19,4 @@ fitted Forecast model
 \description{
 Fitting Forecast Models
 }
+\keyword{internal}

@@ -22,7 +22,7 @@ buildEDModel <- function(x,
                          buildModelControl = list(),
                          postProcessors = "bedAlgo",
                          postProcessorControl = list(),
-                         ignoreVarianceWarning = F,
+                         ignoreVarianceWarning = FALSE,
                          oldModel = NULL){
 
     ## Input Control Defauls ------------------
@@ -66,19 +66,9 @@ buildEDModel <- function(x,
 
     ##      Lists of the supported Models/Pre-/Postprocessors ------------
     ##
-    allSupportedPreparations <- list(
-        supportedImputeTS = c("ImputeTSInterpolation"),
-        other = c()
-    )
-    allSupportedModels <- list(
-        supportedUnivariateForeCastModels = c("ForecastETS"),
-        other = c()
-    )
-    allSupportedPostProcessors <- list(
-        ## List 'other' should contain items which are called by exact name through the
-        ## 'get' function
-        other = c("bedAlgo")
-    )
+    allSupportedPreparations <- getSupportedPreparations()
+    allSupportedModels <- getSupportedModels()
+    allSupportedPostProcessors <- getSupportedPostProcessors()
 
     ##      Check if modelAlgo is supported / does not have typos in it ----
     ##

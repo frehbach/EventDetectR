@@ -15,3 +15,4 @@ model model with added postprocessing step
 \description{
 Dummy BED algo, has to be changed
 }
+\keyword{internal}

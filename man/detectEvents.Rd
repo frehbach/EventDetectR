@@ -8,7 +8,7 @@ detectEvents(x, windowSize = 100, nIterationsRefit = 5,
   verbosityLevel = 0, dataPrepators = "ImputeTSInterpolation",
   dataPreparationControl = list(), buildModelAlgo = "ForecastETS",
   buildModelControl = list(), postProcessors = "bedAlgo",
-  postProcessorControl = list(), ignoreVarianceWarning = F)
+  postProcessorControl = list(), ignoreVarianceWarning = FALSE)
 }
 \arguments{
 \item{x}{data to classify as T/F event}
@@ -38,8 +38,22 @@ edsResults, list of results. $classification -> data.frame containing the T/F ev
 }
 \description{
 detectEvents builds a prediction model on the first 'windowSize' points of the given data x.
-The next nIterationRefit data-points are classified as Event or not, the window is moved and the next model is fitted.
-}
-\details{
+The next nIterationRefit data-points are classified as Event or not.
+The window is moved iteratively and the next models are fitted.
 The first windowSize points will always be classified as no Event and should only contain 'clean' data
+}
+\examples{
+## Run event detection with default settings:
+def <- detectEvents(x = stationBData[1:100,-1])
+
+## Only refit the model after every 50th new datapoint,
+## have someoutput with verbosityLevel = 2 and ignore
+## the variance warning
+ed <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
+                   verbosityLevel = 2,ignoreVarianceWarning = TRUE)
+
+## Switch to another model: Arima
+ed2 <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
+                    verbosityLevel = 2,ignoreVarianceWarning = TRUE,
+                    buildModelAlgo = "ForecastArima")
 }

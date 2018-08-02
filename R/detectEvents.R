@@ -1,8 +1,8 @@
 #' detectEvents in a given data.frame
 #'
 #' detectEvents builds a prediction model on the first 'windowSize' points of the given data x.
-#' The next nIterationRefit data-points are classified as Event or not, the window is moved and the next model is fitted.
-#'
+#' The next nIterationRefit data-points are classified as Event or not.
+#' The window is moved iteratively and the next models are fitted.
 #' The first windowSize points will always be classified as no Event and should only contain 'clean' data
 #'
 #' @param x data to classify as T/F event
@@ -19,6 +19,21 @@
 #'
 #' @return edsResults, list of results. $classification -> data.frame containing the T/F event classification
 #' @export
+#'
+#' @examples
+#' ## Run event detection with default settings:
+#' def <- detectEvents(x = stationBData[1:100,-1])
+#'
+#' ## Only refit the model after every 50th new datapoint,
+#' ## have someoutput with verbosityLevel = 2 and ignore
+#' ## the variance warning
+#' ed <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
+#'                    verbosityLevel = 2,ignoreVarianceWarning = TRUE)
+#'
+#' ## Switch to another model: Arima
+#' ed2 <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
+#'                     verbosityLevel = 2,ignoreVarianceWarning = TRUE,
+#'                     buildModelAlgo = "ForecastArima")
 detectEvents <- function(x,
                          windowSize = 100,
                          nIterationsRefit = 5,
@@ -29,7 +44,7 @@ detectEvents <- function(x,
                          buildModelControl = list(),
                          postProcessors = "bedAlgo",
                          postProcessorControl = list(),
-                         ignoreVarianceWarning = F) {
+                         ignoreVarianceWarning = FALSE) {
     if(is.null(x)){
         stop("detectEvents: no data was specified for variable x")
     }
@@ -97,10 +112,10 @@ detectEvents <- function(x,
                 print(paste0("EDS is working on index: ",index + nIterationsRefit))
             }
         }
-        edModel <- buildEDModel(x[index:(index + windowSize),,drop=F],dataPrepators,dataPreparationControl,
+        edModel <- buildEDModel(x[index:(index + windowSize),,drop=FALSE],dataPrepators,dataPreparationControl,
                                 buildModelAlgo, buildModelControl,
                                 postProcessors, postProcessorControl, ignoreVarianceWarning, edModel)
-        newData <- x[(index + windowSize + 1):min(index + windowSize + nIterationsRefit, nrow(x)),,drop=F]
+        newData <- x[(index + windowSize + 1):min(index + windowSize + nIterationsRefit, nrow(x)),,drop=FALSE]
         p <- predict(edModel,newData)$lastPredictedEvents
         classification <- rbind(classification, p)
         index <- index + nIterationsRefit

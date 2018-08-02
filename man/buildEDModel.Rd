@@ -7,7 +7,7 @@
 buildEDModel(x, dataPrepators = "ImputeTSInterpolation",
   dataPreparationControl = list(), buildModelAlgo = "ForecastETS",
   buildModelControl = list(), postProcessors = "bedAlgo",
-  postProcessorControl = list(), ignoreVarianceWarning = F,
+  postProcessorControl = list(), ignoreVarianceWarning = FALSE,
   oldModel = NULL)
 }
 \arguments{
