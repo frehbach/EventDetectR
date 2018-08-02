@@ -12,6 +12,10 @@ eventClassification <- function(object, newData, ...) {
     if(is.null(object$predictions)){
         stop("Predictions Object was empty when trying to classify events")
     }
+    if(length(object$removedVariables[[1]]) > 0){
+        removeVars <- which(colnames(newData) %in% unlist(object$removedVariables))
+        newData <- newData[,-removeVars]
+    }
     if(!(all(dim(object$predictions) == dim(newData)))){
         stop("Predictions dimensions do not match newData dimensions when tying to classify events")
     }
@@ -29,8 +33,8 @@ eventClassification <- function(object, newData, ...) {
 
     ## Call postprocessing interface with the calculated predictions
     ## Return event detection results
-    events <- object$postProcessing(object, events)
-    return(events)
+    object$lastPredictedEvents <- object$postProcessing(object, events)
+    return(object)
 }
 
 

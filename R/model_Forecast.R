@@ -58,7 +58,9 @@ predict.UnivariateForecast <- function(object,newData = NULL, ...){
         return(predictions)
     }else{
         ## Call ED standard eventClassification Method
-        Event <- eventClassification(object,newData,...)
-        return(cbind(newData,Event))
+        object <- eventClassification(object,newData,...)
+        Event <- object$lastPredictedEvents
+        object$lastPredictedEvents <- cbind(newData,Event)
+        return(object)
     }
 }

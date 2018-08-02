@@ -6,7 +6,20 @@
 #' @export
 bedAlgo <- function(model){
     model$postProcessing <- function(model, events){
-        return(events)
+        nEvents <- length(events)
+        hist <- model$eventHistory
+        lenHist <- length(hist)
+
+        eventThreshhold <- 4
+        windowSize <- 10
+
+        realEvents <- rep(F,nEvents)
+
+        for(i in 1:nEvents){
+            realEvents[i] <- sum(model$eventHistory[(max(1,lenHist-i+1 - windowSize)):(lenHist-i+1)]) > 1
+        }
+
+        return(realEvents)
     }
     return(model)
 }

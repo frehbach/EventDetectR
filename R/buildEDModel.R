@@ -8,6 +8,8 @@
 #' @param buildModelControl control list for modelling algo
 #' @param postProcessors string name of one or more postprocessors, !no list!
 #' @param postProcessorControl control list for postprocessors
+#' @param ignoreVarianceWarning Ignores the continously appearing warning for missing variance in some variable columns given a smaller windowSize
+#' @param oldModel If another model was previously fitted it can be passed to the next model fit. By doing so the eventHistory is preserved
 #'
 #' @return model fittedModel
 #' @export
@@ -19,7 +21,9 @@ buildEDModel <- function(x,
                          buildModelAlgo = "ForecastETS",
                          buildModelControl = list(),
                          postProcessors = "bedAlgo",
-                         postProcessorControl = list()){
+                         postProcessorControl = list(),
+                         ignoreVarianceWarning = F,
+                         oldModel = NULL){
 
     ## Input Control Defauls ------------------
     ##
@@ -46,6 +50,9 @@ buildEDModel <- function(x,
     }
     if(!is.data.frame(x)){
         stop("x has to be a data.frame")
+    }
+    if(any(is.nan(unlist(x)))){
+        stop("The specified data for x contained NaNs")
     }
     if(!all(apply(x,2,is.numeric))){
         stop("one or more columns in x contain non-numeric data")
@@ -119,9 +126,12 @@ buildEDModel <- function(x,
     if(sum(zeroVarianceVars) == ncol(x)){
         stop("There is no variance in your data set, event detection is not possible")
     }else if(sum(zeroVarianceVars) > 0){
-        warning("Some of the variables in your data set contain no variance,
+        if(!ignoreVarianceWarning){
+            warning("Some of the variables in your data set contain no variance,
                   they will be ignored in the event detection process")
+        }
     }
+    removedVarNames <- list(colnames(x)[zeroVarianceVars])
     x <- x[,!zeroVarianceVars]
     x <- scale(x)
 
@@ -180,6 +190,11 @@ buildEDModel <- function(x,
 
     ## Add remark for removed variables
     ##
-    model$removedVariables <- list(names(x)[zeroVarianceVars])
+    model$removedVariables <- removedVarNames
+
+    ## Add information from oldModel
+    if(!is.null(oldModel)){
+        model$eventHistory <- oldModel$eventHistory
+    }
     return(model)
 }

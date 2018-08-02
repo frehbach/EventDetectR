@@ -6,3 +6,21 @@
 #' @docType data
 #' @keywords data
 NULL
+
+#' geccoIC2018Test
+#'
+#' 2018s Test set of the gecco industrial challenge
+#'
+#' @name geccoIC2018Test
+#' @docType data
+#' @keywords data
+NULL
+
+#' geccoIC2018Train
+#'
+#' 2018s train set of the gecco industrial challenge
+#'
+#' @name geccoIC2018Train
+#' @docType data
+#' @keywords data
+NULL

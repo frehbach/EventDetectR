@@ -7,7 +7,8 @@
 buildEDModel(x, dataPrepators = "ImputeTSInterpolation",
   dataPreparationControl = list(), buildModelAlgo = "ForecastETS",
   buildModelControl = list(), postProcessors = "bedAlgo",
-  postProcessorControl = list())
+  postProcessorControl = list(), ignoreVarianceWarning = F,
+  oldModel = NULL)
 }
 \arguments{
 \item{x}{data}
@@ -23,6 +24,10 @@ buildEDModel(x, dataPrepators = "ImputeTSInterpolation",
 \item{postProcessors}{string name of one or more postprocessors, !no list!}
 
 \item{postProcessorControl}{control list for postprocessors}
+
+\item{ignoreVarianceWarning}{Ignores the continously appearing warning for missing variance in some variable columns given a smaller windowSize}
+
+\item{oldModel}{If another model was previously fitted it can be passed to the next model fit. By doing so the eventHistory is preserved}
 }
 \value{
 model fittedModel
