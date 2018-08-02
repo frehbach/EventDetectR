@@ -9,7 +9,16 @@
 #' preps <- getSupportedPreparations()
 getSupportedPreparations <- function() {
     allSupportedPreparations <- list(
-        supportedImputeTS = c("ImputeTSInterpolation"),
+        supportedImputeTS = c("ImputeTSInterpolation",
+                              "Kalman",
+                              "LOCF",
+                              "MA",
+                              "Mean",
+                              "Random",
+                              "Remove",
+                              "Replace",
+                              "Seadec",
+                              "Seasplit"),
         other = c()
     )
     return(allSupportedPreparations)

@@ -105,6 +105,19 @@ buildEDModel <- function(x,
         }
     }
 
+    ## -----------------------
+    ##
+    ## Run Data Preparators
+    ##
+    ## -----------------------
+    for(p in dataPrepators){
+        if(p %in% allSupportedPreparations$supportedImputeTS){
+            prepStr <- substr(p, nchar("ImputeTS") + 1, nchar(p))
+            x <- preparator_imputeTS(x, prepStr, dataPreparationControl)
+        }
+        #%TODO Missing Add general code call for type 'other' preps
+    }
+
     ## Apply Normalization --------------
     ##
     ## Variables which have no variance will be removed!
@@ -118,25 +131,12 @@ buildEDModel <- function(x,
     }else if(sum(zeroVarianceVars) > 0){
         if(!ignoreVarianceWarning){
             warning("Some of the variables in your data set contain no variance,
-                  they will be ignored in the event detection process")
+                    they will be ignored in the event detection process")
         }
-    }
+        }
     removedVarNames <- list(colnames(x)[zeroVarianceVars])
     x <- x[,!zeroVarianceVars]
     x <- scale(x)
-
-    ## -----------------------
-    ##
-    ## Run Data Preparators
-    ##
-    ## -----------------------
-    for(p in dataPrepators){
-        if(p %in% allSupportedPreparations$supportedImputeTS){
-            prepStr <- substr(p, nchar("ImputeTS") + 1, nchar(p))
-            x <- preparator_imputeTS(x, prepStr, dataPreparationControl)
-        }
-        #%TODO Missing Add general code call for type 'other' preps
-    }
 
 
     ## -----------------------

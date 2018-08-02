@@ -42,4 +42,23 @@ test_that("General Functionality",
               x <- stationBData[1000:2000,-1]
               expect_equal(class(buildEDModel(x)),"UnivariateForecast")
               expect_equal(length(buildEDModel(x)$modelList),ncol(x))
+
+              # test with NAs in Data with each data preparator
+              #
+              for(prepper in unlist(getSupportedPreparations())){
+                  modelWithPrep <- buildEDModel(stationBData[2850:2900,-1], dataPrepators = prepper)
+
+                  expect_equal(class(modelWithPrep),"UnivariateForecast")
+                  expect_equal(length(modelWithPrep$modelList),ncol(x))
+              }
+
+              # test with NAs in Data with each data preparator at NA start point
+              #
+              for(prepper in unlist(getSupportedPreparations())){
+                  x <- stationBData[2887:2900,-c(1,5)]
+                  modelWithPrep <- buildEDModel(x, dataPrepators = prepper)
+
+                  expect_equal(class(modelWithPrep),"UnivariateForecast")
+                  expect_equal(length(modelWithPrep$modelList),ncol(x))
+              }
           })
