@@ -1,5 +1,6 @@
 TODO / Upcoming:
 - Data Preparation might be done outside of buildEDModel so that for example NAs can be removed from the whole data set
+- Tests for different model types and functionality of 'detectEvents'
 
 NEWS:
 V0.3.0 - Added eventDetect automatic movingWindow based event detection over a whole dataset
