@@ -64,6 +64,9 @@ buildEDModel <- function(x,
         stop("postProcessors has to be of type character or vector of character")
     }
 
+    ## Transform into timeseries object
+    x <- ts(x)
+
     ##      Lists of the supported Models/Pre-/Postprocessors ------------
     ##
     allSupportedPreparations <- getSupportedPreparations()
