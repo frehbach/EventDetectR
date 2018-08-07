@@ -36,7 +36,7 @@
 #'                     buildModelAlgo = "ForecastArima")
 detectEvents <- function(x,
                          windowSize = 100,
-                         nIterationsRefit = 5,
+                         nIterationsRefit = 50,
                          verbosityLevel = 0,
                          dataPrepators = "ImputeTSInterpolation",
                          dataPreparationControl = list(),
@@ -44,7 +44,7 @@ detectEvents <- function(x,
                          buildModelControl = list(),
                          postProcessors = "bedAlgo",
                          postProcessorControl = list(),
-                         ignoreVarianceWarning = FALSE) {
+                         ignoreVarianceWarning = TRUE) {
     if(is.null(x)){
         stop("detectEvents: no data was specified for variable x")
     }
@@ -123,3 +123,4 @@ detectEvents <- function(x,
     edModel$classification <- classification
     return(edModel)
 }
+
