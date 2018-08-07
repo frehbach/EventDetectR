@@ -12,9 +12,29 @@
 model_UnivariateForecast <- function(x, strName, control){
     ## Select Model by String
     model <- NULL
+    modellingAlgo <- NULL
+
+    #Real Models
     if(strName == "ETS") modellingAlgo <- forecast::ets
     if(strName == "Arima") modellingAlgo <- forecast::Arima
     if(strName == "Bats") modellingAlgo <- forecast::bats
+
+    #Check if used model is a real model or a direct forecaster
+    if(is.null(modellingAlgo)){
+        model$isDirectForecast = T
+    }else{
+        model$isDirectForecast = F
+    }
+
+    #Direct Forecasters
+    if(strName == "Holt") modellingAlgo <- forecast::holt
+    if(strName == "Meanf") modellingAlgo <- forecast::meanf
+    if(strName == "RWF") modellingAlgo <- forecast::rwf
+    if(strName == "SplineF") modellingAlgo <- forecast::splinef
+    if(strName == "Thetaf") modellingAlgo <- forecast::thetaf
+    if(strName == "SES") modellingAlgo <- forecast::ses
+
+    model$usedModellingAlgo <- modellingAlgo
 
     if(ncol(x) > 1){
         modelList <- list()
@@ -43,14 +63,22 @@ model_UnivariateForecast <- function(x, strName, control){
 #' @import stats
 #' @keywords internal
 predict.UnivariateForecast <- function(object,newData = NULL, ...){
+    ## How many points shall be predicted into the future? Default = 10
     if(!is.null(newData)){
         dataLength <- nrow(newData)
     }else{
         dataLength <- 10
     }
+
+    ## Predict with each model in given modelList
     predictions <- matrix(, nrow=dataLength,ncol=length(object$modelList))
     for(i in 1:length(object$modelList)){
-        predictions[,i] <- as.data.frame(forecast(object$modelList[[i]], h = dataLength))[,2]
+        if(object$isDirectForecast){
+            predictions[,i] <- as.data.frame(do.call(object$usedModellingAlgo,
+                                                     list(y = object$modelList[[i]]$x, h = dataLength)))[,1]
+        }else{
+            predictions[,i] <- as.data.frame(forecast(object$modelList[[i]], h = dataLength))[,1]
+        }
     }
 
     object$predictions <- predictions

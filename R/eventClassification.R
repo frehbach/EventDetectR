@@ -26,6 +26,7 @@ eventClassification <- function(object, newData, ...) {
                      scale = object$normalization$scaleSD)
 
 
+    ## Calculate residuals from newData and predictions
     residuals <- abs(newData - object$predictions)
 
     events <- apply((residuals > object$postProcessorControl$nStandardDeviationsEventThreshhold),1,any)

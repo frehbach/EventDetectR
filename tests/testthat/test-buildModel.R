@@ -61,4 +61,16 @@ test_that("General Functionality",
                   expect_equal(class(modelWithPrep),"UnivariateForecast")
                   expect_equal(length(modelWithPrep$modelList),ncol(x))
               }
+
+              # test with NAs in Data with each data preparator at NA start point
+              #
+              for(modelAlgo in unlist(getSupportedModels())){
+                  print(modelAlgo)
+                  x <- stationBData[1:100,-c(1)]
+                  model <- buildEDModel(x, buildModelAlgo = modelAlgo, ignoreVarianceWarning = T)
+                  expect_error(predictionWithoutNewData <- predict(model),regexp = NA)
+                  expect_error(prediction <- predict(model, stationBData[501:520,-1]),regexp = NA)
+                  expect_equal(nrow(predictionWithoutNewData),10)
+                  expect_equal(nrow(prediction$predictions),20)
+              }
           })

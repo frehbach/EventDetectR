@@ -36,7 +36,14 @@ getSupportedPreparations <- function() {
 getSupportedModels <- function() {
     allSupportedModels <- list(
         supportedUnivariateForeCastModels = c("ForecastETS", "ForecastArima",
-                                              "ForecastBats"),
+                                              "ForecastBats",
+                                              "ForecastHolt",
+                                              "ForecastMeanf",
+                                              "ForecastRWF",
+                                              "ForecastSplineF",
+                                              "ForecastThetaf",
+                                              "ForecastSES"
+                                              ),
         other = c()
     )
     return(allSupportedModels)
