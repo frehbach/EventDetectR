@@ -4,11 +4,11 @@
 \alias{detectEvents}
 \title{detectEvents in a given data.frame}
 \usage{
-detectEvents(x, windowSize = 100, nIterationsRefit = 5,
+detectEvents(x, windowSize = 100, nIterationsRefit = 50,
   verbosityLevel = 0, dataPrepators = "ImputeTSInterpolation",
   dataPreparationControl = list(), buildModelAlgo = "ForecastETS",
   buildModelControl = list(), postProcessors = "bedAlgo",
-  postProcessorControl = list(), ignoreVarianceWarning = FALSE)
+  postProcessorControl = list(), ignoreVarianceWarning = TRUE)
 }
 \arguments{
 \item{x}{data to classify as T/F event}
