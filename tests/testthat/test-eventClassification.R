@@ -33,3 +33,22 @@ test_that("prediction works correct",
               expect_true(sum(p1$Event)>sum(p2$Event))
               expect_true(!any(p2$Event))
           })
+
+test_that("print works",
+          {
+              ## Build some ed object
+              ed <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
+                                 verbosityLevel = 0,ignoreVarianceWarning = TRUE,
+                                 buildModelAlgo = "ForecastArima")
+
+              printRes <- capture.output(print(ed))
+              expect_equal(printRes[1], "Event Detection Object with 11 ARIMA submodels")
+
+              ed$modelList <- ed$modelList[1]
+              printRes <- capture.output(print(ed))
+              expect_equal(printRes[1], "Event Detection Object with 1 ARIMA submodel")
+
+              ed$modelList <- NULL
+              printRes <- capture.output(print(ed))
+              expect_equal(printRes[1], "Event Detection Object with no fitted models")
+          })

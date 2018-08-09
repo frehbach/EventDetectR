@@ -17,7 +17,7 @@
 #' @param postProcessorControl control list for postprocessors
 #' @param ignoreVarianceWarning Ignores the continously appearing warning for missing variance in some variable columns given a smaller windowSize
 #'
-#' @return edsResults, list of results. $classification -> data.frame containing the T/F event classification
+#' @return edsResults edObject, list of results. $classification -> data.frame containing the T/F event classification
 #' @export
 #'
 #' @examples
@@ -121,6 +121,30 @@ detectEvents <- function(x,
         index <- index + nIterationsRefit
     }
     edModel$classification <- classification
+    class(edModel) <- "edObject"
     return(edModel)
 }
 
+
+#' Print an Event Detection Object
+#'
+#' Prints the last classification results for an event detection object.
+#'
+#' @param edObject edObject, the event detection object that shall be printed
+#' @param nLast integer, last n rsults that shall be printed
+#'
+#' @export
+print.edObject <- function(edObject, nLast = 10){
+    nModels <- length(edObject$modelList)
+    if(nModels > 1){
+        writeLines(paste0("Event Detection Object with ", nModels, " "
+                     , class(edObject$modelList[[1]])[1], " submodels"))
+    }else if(nModels == 1){
+        writeLines(paste0("Event Detection Object with 1 "
+                     , class(edObject$modelList[[1]])[1], " submodel"))
+    }else{
+        writeLines("Event Detection Object with no fitted models")
+    }
+
+    print(tail(edObject$classification, nLast))
+}
