@@ -125,26 +125,32 @@ detectEvents <- function(x,
     return(edModel)
 }
 
-
 #' Print an Event Detection Object
 #'
 #' Prints the last classification results for an event detection object.
+#' If 'nLast' (integer) is given, it specifies the amount of rows to be printed.
 #'
-#' @param edObject edObject, the event detection object that shall be printed
-#' @param nLast integer, last n rsults that shall be printed
+#' @param x edObject, the event detection object that shall be printed
+#' @param ... any additional parameters
 #'
 #' @export
-print.edObject <- function(edObject, nLast = 10){
-    nModels <- length(edObject$modelList)
+print.edObject <- function(x, ...){
+    args <- list(...)
+    nModels <- length(x$modelList)
     if(nModels > 1){
         writeLines(paste0("Event Detection Object with ", nModels, " "
-                     , class(edObject$modelList[[1]])[1], " submodels"))
+                     , class(x$modelList[[1]])[1], " submodels"))
     }else if(nModels == 1){
         writeLines(paste0("Event Detection Object with 1 "
-                     , class(edObject$modelList[[1]])[1], " submodel"))
+                     , class(x$modelList[[1]])[1], " submodel"))
     }else{
         writeLines("Event Detection Object with no fitted models")
     }
 
-    print(tail(edObject$classification, nLast))
+    if(is.null(args$nLast)){
+        nLast <- 10
+    }else{
+        nLast <- args$nLast
+    }
+    print(tail(x$classification, nLast))
 }

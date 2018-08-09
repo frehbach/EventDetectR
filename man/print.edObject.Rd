@@ -4,13 +4,14 @@
 \alias{print.edObject}
 \title{Print an Event Detection Object}
 \usage{
-\method{print}{edObject}(edObject, nLast = 10)
+\method{print}{edObject}(x, ...)
 }
 \arguments{
-\item{edObject}{edObject, the event detection object that shall be printed}
+\item{x}{edObject, the event detection object that shall be printed}
 
-\item{nLast}{integer, last n rsults that shall be printed}
+\item{...}{any additional parameters}
 }
 \description{
 Prints the last classification results for an event detection object.
+If 'nLast' (integer) is given, it specifies the amount of rows to be printed.
 }
