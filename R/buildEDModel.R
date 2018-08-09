@@ -65,7 +65,10 @@ buildEDModel <- function(x,
     }
 
     ## Transform into timeseries object
-    x <- ts(x)
+
+    if(isTRUE(dataPreparationControl$useTimeSeriesFormat)){
+        x <- ts(x)
+    }
 
     ##      Lists of the supported Models/Pre-/Postprocessors ------------
     ##
@@ -127,20 +130,22 @@ buildEDModel <- function(x,
     ## A warning is generated if this happens
     ##
     ## If all variables have 0 variance, an error is thrown
-    zeroVarianceVars <- (apply(x,2,sd) == 0)
+    removedVarNames <- NULL
+    if(isTRUE(dataPreparationControl$useNormalization)){
+        zeroVarianceVars <- (apply(x,2,sd) == 0)
 
-    if(sum(zeroVarianceVars) == ncol(x)){
-        stop("There is no variance in your data set, event detection is not possible")
-    }else if(sum(zeroVarianceVars) > 0){
-        if(!ignoreVarianceWarning){
-            warning("Some of the variables in your data set contain no variance,
-                    they will be ignored in the event detection process")
-        }
-        }
-    removedVarNames <- list(colnames(x)[zeroVarianceVars])
-    x <- x[,!zeroVarianceVars]
-    x <- scale(x)
-
+        if(sum(zeroVarianceVars) == ncol(x)){
+            stop("There is no variance in your data set, event detection is not possible")
+        }else if(sum(zeroVarianceVars) > 0){
+            if(!ignoreVarianceWarning){
+                warning("Some of the variables in your data set contain no variance,
+                        they will be ignored in the event detection process")
+            }
+            }
+        removedVarNames <- list(colnames(x)[zeroVarianceVars])
+        x <- x[,!zeroVarianceVars]
+        x <- scale(x)
+    }
 
     ## -----------------------
     ##

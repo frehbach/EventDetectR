@@ -32,6 +32,14 @@ test_that("prediction works correct",
               p2 <- predict(m2,newDataReal)$lastPredictedEvents
               expect_true(sum(p1$Event)>sum(p2$Event))
               expect_true(!any(p2$Event))
+
+
+              #Check that normalization is really deactivated if setting says so
+              x <- stationBData[1000:2000,-1]
+              m <- buildEDModel(x, dataPreparationControl = list(useNormalization = F))
+              newDataReal <- stationBData[2001:2020,-1]
+              p <- predict(m)
+              expect_true(any(p > 50))
           })
 
 test_that("print works",

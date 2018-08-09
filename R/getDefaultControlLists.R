@@ -4,7 +4,8 @@
 #' @keywords internal
 getDefaultPreparationControl <- function() {
     defaultControlList <- list(
-
+        useNormalization = TRUE,
+        useTimeSeriesFormat = TRUE
     )
 }
 

@@ -34,7 +34,7 @@ detectEvents(x, windowSize = 100, nIterationsRefit = 50,
 \item{ignoreVarianceWarning}{Ignores the continously appearing warning for missing variance in some variable columns given a smaller windowSize}
 }
 \value{
-edsResults, list of results. $classification -> data.frame containing the T/F event classification
+edsResults edObject, list of results. $classification -> data.frame containing the T/F event classification
 }
 \description{
 detectEvents builds a prediction model on the first 'windowSize' points of the given data x.

@@ -22,9 +22,10 @@ eventClassification <- function(object, newData, ...) {
 
     ## Apply Normalization -----
     ##
-    newData <- scale(newData,center = object$normalization$scaleCenter,
-                     scale = object$normalization$scaleSD)
-
+    if(isTRUE(object$dataPreparationControl$useNormalization)){
+        newData <- scale(newData,center = object$normalization$scaleCenter,
+                         scale = object$normalization$scaleSD)
+    }
 
     ## Calculate residuals from newData and predictions
     residuals <- abs(newData - object$predictions)
