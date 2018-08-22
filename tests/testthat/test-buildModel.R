@@ -46,6 +46,7 @@ test_that("General Functionality",
               # test with NAs in Data with each data preparator
               #
               for(prepper in unlist(getSupportedPreparations())){
+                  print(prepper)
                   modelWithPrep <- buildEDModel(stationBData[2850:2900,-1], dataPrepators = prepper)
 
                   expect_equal(class(modelWithPrep),"UnivariateForecast")
