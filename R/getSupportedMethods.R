@@ -1,8 +1,9 @@
 #' getSupportedPreparations
 #'
-#' Get a list of all data preparation methods that are usable in package 'eventDetectR'.
+#' Get a list of all data preparation methods that are currently supported in package 'eventDetectR'.
 #'
-#' @return allSupportedPreparations a list of strings with each supported method name. The strings can be copied and used in calls to 'eventDetect' or 'buildEDModel'
+#' @return allSupportedPreparations a list of strings with each supported method name.
+#' The strings can be copied and used in calls to 'eventDetect' or 'buildEDModel'
 #' @export
 #'
 #' @examples
@@ -27,7 +28,7 @@ getSupportedPreparations <- function() {
 
 #' getSupportedModels
 #'
-#' Get a list of all data modelling methods that are usable in package 'eventDetectR'.
+#' Get a list of all data modelling methods that are currently supported in package 'eventDetectR'.
 #'
 #' @return allSupportedModels a list of strings with each supported method name. The strings can be copied and used in calls to 'eventDetect' or 'buildEDModel'
 #' @export
@@ -52,7 +53,7 @@ getSupportedModels <- function() {
 
 #' getSupportedPostProcessors
 #'
-#' Get a list of all data postprocessing methods that are usable in package 'eventDetectR'.
+#' Get a list of all data postprocessing methods that are currently supported in package 'eventDetectR'.
 #'
 #' @return allSupportedPostProcessors a list of strings with each supported method name. The strings can be copied and used in calls to 'eventDetect' or 'buildEDModel'
 #' @export

@@ -9,7 +9,7 @@ NULL
 
 #' geccoIC2018Test
 #'
-#' 2018s Test set of the gecco industrial challenge
+#' 2018s Test set of the gecco industrial challenge - http://www.spotseven.de/gecco/gecco-challenge/
 #'
 #' @name geccoIC2018Test
 #' @docType data
@@ -18,7 +18,7 @@ NULL
 
 #' geccoIC2018Train
 #'
-#' 2018s train set of the gecco industrial challenge
+#' 2018s train set of the gecco industrial challenge - http://www.spotseven.de/gecco/gecco-challenge/
 #'
 #' @name geccoIC2018Train
 #' @docType data

@@ -5,6 +5,6 @@
 \alias{geccoIC2018Test}
 \title{geccoIC2018Test}
 \description{
-2018s Test set of the gecco industrial challenge
+2018s Test set of the gecco industrial challenge - http://www.spotseven.de/gecco/gecco-challenge/
 }
 \keyword{data}

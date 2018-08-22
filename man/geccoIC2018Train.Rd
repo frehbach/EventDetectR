@@ -5,6 +5,6 @@
 \alias{geccoIC2018Train}
 \title{geccoIC2018Train}
 \description{
-2018s train set of the gecco industrial challenge
+2018s train set of the gecco industrial challenge - http://www.spotseven.de/gecco/gecco-challenge/
 }
 \keyword{data}

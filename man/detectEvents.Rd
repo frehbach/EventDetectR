@@ -11,33 +11,46 @@ detectEvents(x, windowSize = 100, nIterationsRefit = 50,
   postProcessorControl = list(), ignoreVarianceWarning = TRUE)
 }
 \arguments{
-\item{x}{data to classify as T/F event}
+\item{x}{data.frame, data which shall be classified as event or not}
 
 \item{windowSize}{amount of data points to consider in each prediction model}
 
-\item{nIterationsRefit}{amount of points into the future which will be predicted}
+\item{nIterationsRefit}{amount of points into the future which will be predicted without fitting a new model.
+E.g. if nIterationsRefit = 5 then the next five dataPoints are classified without refitting.}
 
-\item{verbosityLevel}{Print output of function progress. 0 -> No output, 1 -> every 100th model building iteration, 2 -> every 10th, 3 -> every iteration}
+\item{verbosityLevel}{Print output of function progress. 0 -> No output,
+1 -> every 100th model building iteration, 2 -> every 10th, 3 -> every iteration}
 
-\item{dataPrepators}{string or vector of strings, which preparators to use, !no list!}
+\item{dataPrepators}{string or vector of strings, that defines which preparators to use.
+Lists are not accepted. Usage Example: dataPreparators = "ImputeTSInterpolation" results in the usage of
+imputeTS::na.interpolation as a data preparator. All possible preparators are listed via:
+getSupportedPreparations()}
 
-\item{dataPreparationControl}{control list for data preparators}
+\item{dataPreparationControl}{list, control-list containing all additional parameters that shall be passed
+to the dataPreparators.}
 
-\item{buildModelAlgo}{string name of modelling algo}
+\item{buildModelAlgo}{string, model name to be used. All possible preparators
+are listed via: getSupportedModels().}
 
-\item{buildModelControl}{control list for modelling algo}
+\item{buildModelControl}{list, control-list containing all additional parameters that shall be passed
+to the modelling algo.}
 
-\item{postProcessors}{string name of one or more postprocessors, !no list!}
+\item{postProcessors}{string or vector of strings, that defines which postProcessors to use.
+Lists are not accepted. Usage Example: postProcessors = "bedAlgo" results in the usage of
+bed as a event postProcessing tool. All possible preparators are listed via:
+getSupportedPostProcessors()}
 
-\item{postProcessorControl}{control list for postprocessors}
+\item{postProcessorControl}{list, control-list containing all additional parameters that shall be passed
+to the postProcessirs.}
 
-\item{ignoreVarianceWarning}{Ignores the continously appearing warning for missing variance in some variable columns given a smaller windowSize}
+\item{ignoreVarianceWarning}{Ignores the continously appearing warning for missing variance in some variable
+columns given a smaller windowSize}
 }
 \value{
 edsResults edObject, list of results. $classification -> data.frame containing the T/F event classification
 }
 \description{
-detectEvents builds a prediction model on the first 'windowSize' points of the given data x.
+detectEvents builds a prediction model (edObject) on the first 'windowSize' points of the given data x.
 The next nIterationRefit data-points are classified as Event or not.
 The window is moved iteratively and the next models are fitted.
 The first windowSize points will always be classified as no Event and should only contain 'clean' data

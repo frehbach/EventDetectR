@@ -7,10 +7,11 @@
 getSupportedPreparations()
 }
 \value{
-allSupportedPreparations a list of strings with each supported method name. The strings can be copied and used in calls to 'eventDetect' or 'buildEDModel'
+allSupportedPreparations a list of strings with each supported method name.
+The strings can be copied and used in calls to 'eventDetect' or 'buildEDModel'
 }
 \description{
-Get a list of all data preparation methods that are usable in package 'eventDetectR'.
+Get a list of all data preparation methods that are currently supported in package 'eventDetectR'.
 }
 \examples{
 preps <- getSupportedPreparations()
