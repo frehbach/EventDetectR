@@ -11,27 +11,51 @@ buildEDModel(x, dataPrepators = "ImputeTSInterpolation",
   oldModel = NULL)
 }
 \arguments{
-\item{x}{data}
+\item{x}{data.frame containing initial data on which the model will be fitted.
+Data should be free of events. The data should not include a timestamp column}
 
-\item{dataPrepators}{string or vector of strings, which preparators to use, !no list!}
+\item{dataPrepators}{string or vector of strings, that defines which preparators to use.
+Lists are not accepted. Usage Example: dataPreparators = "ImputeTSInterpolation" results in the usage of
+imputeTS::na.interpolation as a data preparator. All possible preparators are listed via:
+getSupportedPreparations()}
 
-\item{dataPreparationControl}{control list for data preparators}
+\item{dataPreparationControl}{list, control-list containing all additional parameters that shall be passed
+to the dataPreparators.}
 
-\item{buildModelAlgo}{string name of modelling algo}
+\item{buildModelAlgo}{string, model name to be used. All possible preparators
+are listed via: getSupportedModels().}
 
-\item{buildModelControl}{control list for modelling algo}
+\item{buildModelControl}{list, control-list containing all additional parameters that shall be passed
+to the modelling algo.}
 
-\item{postProcessors}{string name of one or more postprocessors, !no list!}
+\item{postProcessors}{string or vector of strings, that defines which postProcessors to use.
+Lists are not accepted. Usage Example: postProcessors = "bedAlgo" results in the usage of
+bed as a event postProcessing tool. All possible preparators are listed via:
+getSupportedPostProcessors()}
 
-\item{postProcessorControl}{control list for postprocessors}
+\item{postProcessorControl}{list, control-list containing all additional parameters that shall be passed
+to the postProcessirs.}
 
-\item{ignoreVarianceWarning}{Ignores the continously appearing warning for missing variance in some variable columns given a smaller windowSize}
+\item{ignoreVarianceWarning}{Ignores the continously appearing warning for missing variance in some variable
+columns given a smaller windowSize}
 
-\item{oldModel}{If another model was previously fitted it can be passed to the next model fit. By doing so the eventHistory is preserved}
+\item{oldModel}{If another model was previously fitted it can be passed to the next model fit.
+By doing so the eventHistory is preserved}
 }
 \value{
-model fittedModel
+model, event detection object (edObject) containing all models and configurations that are used
+to detect events in given data.
 }
 \description{
-build Event Detection Model
+Builds an event detection object (edObject) containing all models and configurations that are used
+to detect events in given data.
+}
+\examples{
+
+## build a simple event detection model with standard configuration
+x <- stationBData[1:2000,-1]
+buildEDModel(x)
+
+## Set up a more complex event detection model defining some additional configuration
+buildEDModel(x, dataPrepators = "ImputeTSMean", buildModelAlgo = "ForecastArima")
 }

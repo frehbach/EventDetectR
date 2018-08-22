@@ -1,20 +1,45 @@
-
 #' build Event Detection Model
 #'
-#' @param x data
-#' @param dataPrepators string or vector of strings, which preparators to use, !no list!
-#' @param dataPreparationControl control list for data preparators
-#' @param buildModelAlgo string name of modelling algo
-#' @param buildModelControl control list for modelling algo
-#' @param postProcessors string name of one or more postprocessors, !no list!
-#' @param postProcessorControl control list for postprocessors
-#' @param ignoreVarianceWarning Ignores the continously appearing warning for missing variance in some variable columns given a smaller windowSize
-#' @param oldModel If another model was previously fitted it can be passed to the next model fit. By doing so the eventHistory is preserved
+#' Builds an event detection object (edObject) containing all models and configurations that are used
+#' to detect events in given data.
 #'
-#' @return model fittedModel
+#' @param x data.frame containing initial data on which the model will be fitted.
+#' Data should be free of events. The data should not include a timestamp column
+#' @param dataPrepators string or vector of strings, that defines which preparators to use.
+#' Lists are not accepted. Usage Example: dataPreparators = "ImputeTSInterpolation" results in the usage of
+#' imputeTS::na.interpolation as a data preparator. All possible preparators are listed via:
+#' getSupportedPreparations()
+#' @param dataPreparationControl list, control-list containing all additional parameters that shall be passed
+#' to the dataPreparators.
+#' @param buildModelAlgo string, model name to be used. All possible preparators
+#' are listed via: getSupportedModels().
+#' @param buildModelControl list, control-list containing all additional parameters that shall be passed
+#' to the modelling algo.
+#' @param postProcessors string or vector of strings, that defines which postProcessors to use.
+#' Lists are not accepted. Usage Example: postProcessors = "bedAlgo" results in the usage of
+#' bed as a event postProcessing tool. All possible preparators are listed via:
+#' getSupportedPostProcessors()
+#' @param postProcessorControl list, control-list containing all additional parameters that shall be passed
+#' to the postProcessirs.
+#' @param ignoreVarianceWarning Ignores the continously appearing warning for missing variance in some variable
+#' columns given a smaller windowSize
+#' @param oldModel If another model was previously fitted it can be passed to the next model fit.
+#' By doing so the eventHistory is preserved
+#'
+#' @return model, event detection object (edObject) containing all models and configurations that are used
+#' to detect events in given data.
 #' @export
 #'
 #' @import imputeTS
+#'
+#' @examples
+#'
+#' ## build a simple event detection model with standard configuration
+#' x <- stationBData[1:2000,-1]
+#' buildEDModel(x)
+#'
+#' ## Set up a more complex event detection model defining some additional configuration
+#' buildEDModel(x, dataPrepators = "ImputeTSMean", buildModelAlgo = "ForecastArima")
 buildEDModel <- function(x,
                          dataPrepators = "ImputeTSInterpolation",
                          dataPreparationControl = list(),
