@@ -58,6 +58,12 @@ getDefaultModelControl()
 getDefaultPostControl()
 ```
 
+The event classification itself is shown in the graph below. #TODO make this graph look nice
+
+![Alt text](doc/windowImage.png?raw=true "Title")
+
+At each classification iteration, a window of 'windowSize' datapoints (shown in blue) is first prepared with the specified data preparators. Next, a model is fitted and used to predict the next 'nIterationsRefit' data into the future. The real data (shown in red) is compared to the prediction in order to calculate residuals. These residuals together with the specified classification threshholds is used to decide which data is considered as event and which is considered background. After the classification, the window is moved by 'nIterationsRefit' rows in the data.frame and the procedure is repeated until the end of the data.frame / time-series is reached, and thus all elements are classified.
+
 -------------
 
 ## Graphical User Interface
