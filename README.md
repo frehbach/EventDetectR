@@ -9,6 +9,16 @@ It aims to combine multiple well-known R-packages like the forecast package to d
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/frehbach/EventDetectR?branch=master&svg=true)](https://ci.appveyor.com/project/frehbach/EventDetectR)
 [![codecov](https://codecov.io/gh/frehbach/EventDetectR/branch/master/graph/badge.svg)](https://codecov.io/gh/frehbach/EventDetectR)
 
+## Installation
+The package can be installed directly from github:
+
+```R
+require(devtools)
+install_github("frehbach/EventDetectR")
+```
+
+Soon the package will also be available on CRAN.
+
 ## Usage
 The main function of the EventDetectR package is:
 
