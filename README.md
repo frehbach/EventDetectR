@@ -1,6 +1,6 @@
 # EventDetectR
 ## General Info
-EventDetectR is an R-package for detecting/classifiying events in time-series data.
+[EventDetectR](https://frehbach.github.io/EventDetectR/) is an R-package for detecting/classifiying events in time-series data.
 It aims to combine multiple well-known R-packages like the forecast package to deliver an easily configurable tool for event detection.
 
 ## Current Project Status
