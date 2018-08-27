@@ -82,4 +82,4 @@ Check out the current status at: [EventDetectGUI](https://github.com/frehbach/Ev
 
 -------------
 
-Funding Remark
+Parts of this work were supported by the ''Ministerium f\"ur Kultur und Wissenschaft des Landes Nordrhein-Westfalen'' (FKZ: 005-1703-0011).
