@@ -78,7 +78,7 @@ At each classification iteration, a window of 'windowSize' datapoints (shown in 
 
 ## Graphical User Interface
 A graphical user interface (GUI) for the EventDetectR package is currently in development. 
-Check out the current status at: [EventDetectGUI](https://github.com/frehbach/EventDetectGUI)
+Check out the most recent status at: [EventDetectGUI](https://github.com/frehbach/EventDetectGUI)
 
 -------------
 
