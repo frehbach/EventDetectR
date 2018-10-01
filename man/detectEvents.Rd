@@ -56,6 +56,7 @@ The window is moved iteratively and the next models are fitted.
 The first windowSize points will always be classified as no Event and should only contain 'clean' data
 }
 \examples{
+\dontrun{
 ## Run event detection with default settings:
 def <- detectEvents(x = stationBData[1:100,-1])
 
@@ -68,5 +69,5 @@ ed <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
 ## Switch to another model: Arima
 ed2 <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
                     verbosityLevel = 2,ignoreVarianceWarning = TRUE,
-                    buildModelAlgo = "ForecastArima")
+                    buildModelAlgo = "ForecastArima")}
 }
