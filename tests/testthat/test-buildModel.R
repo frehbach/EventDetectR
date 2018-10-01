@@ -1,3 +1,4 @@
+skip_on_cran()
 context("buildModel Errors")
 
 test_that("Errors wrong inputs",
