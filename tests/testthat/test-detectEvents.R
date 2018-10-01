@@ -1,3 +1,4 @@
+testthat::skip_on_cran()
 context("detectEvents")
 
 test_that("wrongInputs lead to errors",
