@@ -21,5 +21,4 @@ Depends:
 Imports: imputeTS, forecast
 Suggests: testthat, utils
 License: GPL-3
-VignetteBuilder: utils
 RoxygenNote: 6.0.1
