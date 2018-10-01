@@ -1,4 +1,4 @@
-context("buildModel")
+context("buildModel Errors")
 
 test_that("Errors wrong inputs",
           {
@@ -42,16 +42,26 @@ test_that("General Functionality",
               x <- stationBData[1000:2000,-1]
               expect_equal(class(buildEDModel(x)),"UnivariateForecast")
               expect_equal(length(buildEDModel(x)$modelList),ncol(x))
+          })
+
+context("buildModel NA Crashes - prepper")
+test_that("NAs dont make you crash - prepper",
+          {
+              x <- stationBData[1000:2000,-1]
 
               # test with NAs in Data with each data preparator
               #
               for(prepper in unlist(getSupportedPreparations())){
-                  print(prepper)
                   modelWithPrep <- buildEDModel(stationBData[2850:2900,-1], dataPrepators = prepper)
 
                   expect_equal(class(modelWithPrep),"UnivariateForecast")
                   expect_equal(length(modelWithPrep$modelList),ncol(x))
               }
+          })
+
+test_that("NAs dont make you crash - prepper - start point",
+          {
+              x <- stationBData[1000:2000,-1]
 
               # test with NAs in Data with each data preparator at NA start point
               #
@@ -62,11 +72,16 @@ test_that("General Functionality",
                   expect_equal(class(modelWithPrep),"UnivariateForecast")
                   expect_equal(length(modelWithPrep$modelList),ncol(x))
               }
+          })
 
-              # test with NAs in Data with each data preparator at NA start point
+context("buildModel NA Crashes - modelAlgo")
+test_that("NAs dont make you crash - modelAlgo",
+          {
+              x <- stationBData[1000:2000,-1]
+
+              # test with NAs in Data with each modelAlgo
               #
               for(modelAlgo in unlist(getSupportedModels())){
-                  print(modelAlgo)
                   x <- stationBData[1:100,-c(1)]
                   model <- buildEDModel(x, buildModelAlgo = modelAlgo, ignoreVarianceWarning = T)
                   expect_error(predictionWithoutNewData <- predict(model),regexp = NA)
