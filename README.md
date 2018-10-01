@@ -9,6 +9,16 @@ It aims to combine multiple well-known R-packages like the forecast package to d
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/frehbach/EventDetectR?branch=master&svg=true)](https://ci.appveyor.com/project/frehbach/EventDetectR)
 [![codecov](https://codecov.io/gh/frehbach/EventDetectR/branch/master/graph/badge.svg)](https://codecov.io/gh/frehbach/EventDetectR)
 
+## Installation
+The package can be installed directly from github:
+
+```R
+require(devtools)
+install_github("frehbach/EventDetectR")
+```
+
+Soon the package will also be available on CRAN.
+
 ## Usage
 The main function of the EventDetectR package is:
 
@@ -68,8 +78,8 @@ At each classification iteration, a window of 'windowSize' datapoints (shown in 
 
 ## Graphical User Interface
 A graphical user interface (GUI) for the EventDetectR package is currently in development. 
-Check out the current status at: https://github.com/frehbach/EventDetectGUI
+Check out the most recent status at: [EventDetectGUI](https://github.com/frehbach/EventDetectGUI)
 
 -------------
 
-Funding Remark
+Parts of this work were supported by the ''Ministerium für Kultur und Wissenschaft des Landes Nordrhein-Westfalen'' (FKZ: 005-1703-0011).
