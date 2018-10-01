@@ -5,6 +5,8 @@
 ^.*\.ini$
 ^.*\.txt$
 ^appveyor\.yml$
+README.md
 Icon
 Icon?
 Docs
+Doc/
