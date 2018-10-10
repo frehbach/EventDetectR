@@ -34,10 +34,10 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' ## Run event detection with default settings:
 #' def <- detectEvents(x = stationBData[1:100,-1])
 #'
+#' \donttest{
 #' ## Only refit the model after every 50th new datapoint,
 #' ## have someoutput with verbosityLevel = 2 and ignore
 #' ## the variance warning

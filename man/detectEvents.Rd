@@ -56,10 +56,10 @@ The window is moved iteratively and the next models are fitted.
 The first windowSize points will always be classified as no Event and should only contain 'clean' data
 }
 \examples{
-\dontrun{
 ## Run event detection with default settings:
 def <- detectEvents(x = stationBData[1:100,-1])
 
+\donttest{
 ## Only refit the model after every 50th new datapoint,
 ## have someoutput with verbosityLevel = 2 and ignore
 ## the variance warning
