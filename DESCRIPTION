@@ -1,13 +1,13 @@
 Package: EventDetectR
 Version: 0.3.1
-Date: 2018-10-01
+Date: 2018-10-10
 Title: Event Detection Framework
-Description: Detect / classify events in time-series data. 'EventDetectR' aims to combine multiple well-known R-packages like the 'forecast'-package to deliver an easily configurable tool for event detection.
-Author: Frederik Rehbach [aut, cre], Steffen Moritz [aut]
+Description: Detect / classify events in time-series data. 'EventDetectR' combines multiple well-known R-packages like the 'forecast'-package to deliver an easily configurable tool for event detection.
+Author: Frederik Rehbach [aut, cre], Steffen Moritz [aut] (<https://orcid.org/0000-0002-0085-1804>)
 Authors@R: 
   c(
   person("Frederik", "Rehbach", email="frederik.re@gmail.com", role=c("aut", "cre")),
-  person("Steffen", "Moritz", email="steffen.moritz10@gmail.com", role=c("aut"))
+  person("Steffen", "Moritz", email="steffen.moritz10@gmail.com", role=c("aut"), comment = c(ORCID = "0000-0002-0085-1804"))
   )
 Maintainer: Frederik Rehbach <frederik.re@gmail.com>
 LazyData: yes
