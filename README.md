@@ -1,4 +1,4 @@
-# EventDetectR <img src="man/figures/eventdetectr-logo.png" align="right" width="565" height="382" alt="imputeTS Logo" />
+# EventDetectR <img src="man/figures/eventdetectr-logo.png" align="right" width="181" height="209" alt="EventDetectR Logo" />
 ## General Info
 [EventDetectR](https://frehbach.github.io/EventDetectR/) is an R-package for detecting/classifiying events in time-series data.
 It aims to combine multiple well-known R-packages like the forecast package to deliver an easily configurable tool for event detection.
