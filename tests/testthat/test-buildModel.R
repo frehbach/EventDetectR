@@ -44,6 +44,11 @@ test_that("General Functionality",
               x <- stationBData[1000:2000,-1]
               expect_equal(class(buildEDModel(x)),"UnivariateForecast")
               expect_equal(length(buildEDModel(x)$modelList),ncol(x))
+
+              ## Building a model should also work without dataPreparation / postprocessing
+              expect_equal(class(buildEDModel(x,dataPrepators = NULL)),"UnivariateForecast")
+              expect_equal(class(buildEDModel(x,postProcessors = NULL)),"UnivariateForecast")
+              expect_equal(class(buildEDModel(x,dataPrepators = NULL, postProcessors = NULL)),"UnivariateForecast")
           })
 
 context("buildModel NA Crashes - prepper")

@@ -17,7 +17,8 @@ Data should be free of events. The data should not include a timestamp column}
 \item{dataPrepators}{string or vector of strings, that defines which preparators to use.
 Lists are not accepted. Usage Example: dataPreparators = "ImputeTSInterpolation" results in the usage of
 imputeTS::na.interpolation as a data preparator. All possible preparators are listed via:
-getSupportedPreparations()}
+getSupportedPreparations()
+Can also be set to NULL in order to shut off data preparation}
 
 \item{dataPreparationControl}{list, control-list containing all additional parameters that shall be passed
 to the dataPreparators.}
@@ -31,7 +32,8 @@ to the modelling algo.}
 \item{postProcessors}{string or vector of strings, that defines which postProcessors to use.
 Lists are not accepted. Usage Example: postProcessors = "bedAlgo" results in the usage of
 bed as a event postProcessing tool. All possible preparators are listed via:
-getSupportedPostProcessors()}
+getSupportedPostProcessors()
+Can also be set to NULL in order to shut off data postProcessing}
 
 \item{postProcessorControl}{list, control-list containing all additional parameters that shall be passed
 to the postProcessirs.}

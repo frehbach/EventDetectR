@@ -9,6 +9,7 @@
 #' Lists are not accepted. Usage Example: dataPreparators = "ImputeTSInterpolation" results in the usage of
 #' imputeTS::na.interpolation as a data preparator. All possible preparators are listed via:
 #' getSupportedPreparations()
+#' Can also be set to NULL in order to shut off data preparation
 #' @param dataPreparationControl list, control-list containing all additional parameters that shall be passed
 #' to the dataPreparators.
 #' @param buildModelAlgo string, model name to be used. All possible preparators
@@ -19,6 +20,7 @@
 #' Lists are not accepted. Usage Example: postProcessors = "bedAlgo" results in the usage of
 #' bed as a event postProcessing tool. All possible preparators are listed via:
 #' getSupportedPostProcessors()
+#' Can also be set to NULL in order to shut off data postProcessing
 #' @param postProcessorControl list, control-list containing all additional parameters that shall be passed
 #' to the postProcessirs.
 #' @param ignoreVarianceWarning Ignores the continously appearing warning for missing variance in some variable
@@ -82,11 +84,15 @@ buildEDModel <- function(x,
     if(!all(apply(x,2,is.numeric))){
         stop("one or more columns in x contain non-numeric data")
     }
-    if(!typeof(dataPrepators) == "character"){
-        stop("dataPreparators has to be of type character or vector of character")
+    if(!is.null(dataPrepators)){
+        if(!typeof(dataPrepators) == "character"){
+            stop("dataPreparators has to be of type character or vector of character")
+        }
     }
-    if(!typeof(postProcessors) == "character"){
-        stop("postProcessors has to be of type character or vector of character")
+    if(!is.null(postProcessors)){
+        if(!typeof(postProcessors) == "character"){
+            stop("postProcessors has to be of type character or vector of character")
+        }
     }
 
     ## Transform into timeseries object
@@ -109,7 +115,7 @@ buildEDModel <- function(x,
 
     ##      Check each dataPreparator, multiple might be provided ----
     ##
-    if(length(dataPrepators) <= 1){
+    if(length(dataPrepators) <= 1 & !is.null(dataPrepators)){
         if(!(dataPrepators %in% unlist(allSupportedPreparations))){
             stop("The specified preparator is not supported, please check your input for 'dataPreparators'")
         }
@@ -124,13 +130,13 @@ buildEDModel <- function(x,
     ## -----------------------
     ##      Check each postProcessor, multiple might be provided
     ## -----------------------
-    if(length(dataPrepators) <= 1){
-        if(!(dataPrepators %in% unlist(allSupportedPreparations))){
+    if(length(postProcessors) <= 1 & !is.null(postProcessors)){
+        if(!(postProcessors %in% unlist(allSupportedPostProcessors))){
             stop("The specified preparator is not supported, please check your input for 'dataPreparators'")
         }
     }else{
-        for(p in dataPrepators){
-            if(!(p %in% unlist(allSupportedPreparations))){
+        for(p in postProcessors){
+            if(!(p %in% unlist(allSupportedPostProcessors))){
                 stop("The specified preparator is not supported, please check your input for 'dataPreparators'")
             }
         }
@@ -141,13 +147,16 @@ buildEDModel <- function(x,
     ## Run Data Preparators
     ##
     ## -----------------------
-    for(p in dataPrepators){
-        if(p %in% allSupportedPreparations$supportedImputeTS){
-            prepStr <- substr(p, nchar("ImputeTS") + 1, nchar(p))
-            x <- preparator_imputeTS(x, prepStr, dataPreparationControl)
+    if(!is.null(dataPrepators)){
+        for(p in dataPrepators){
+            if(p %in% allSupportedPreparations$supportedImputeTS){
+                prepStr <- substr(p, nchar("ImputeTS") + 1, nchar(p))
+                x <- preparator_imputeTS(x, prepStr, dataPreparationControl)
+            }
+            #%TODO Missing Add general code call for type 'other' preps
         }
-        #%TODO Missing Add general code call for type 'other' preps
     }
+
 
     ## Apply Normalization --------------
     ##
@@ -188,10 +197,12 @@ buildEDModel <- function(x,
     ## Add Postprocessor to model
     ##
     ## -----------------------
-    for(p in postProcessors){
-        if(p %in% allSupportedPostProcessors$other){
-            postProcessingFunction <- get(p)
-            model <- postProcessingFunction(model)
+    if(!is.null(postProcessors)){
+        for(p in postProcessors){
+            if(p %in% allSupportedPostProcessors$other){
+                postProcessingFunction <- get(p)
+                model <- postProcessingFunction(model)
+            }
         }
     }
     #%call to specified postprocessor. Function should accept the model and add
