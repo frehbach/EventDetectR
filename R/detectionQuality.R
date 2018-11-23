@@ -22,6 +22,12 @@ qualityStatistics <- function(edObject, reference){
         stop("Package \"caret\" needed for this function to work. Please install it.",
              call. = FALSE)
     }
+
+    if (!requireNamespace("e1071", quietly = TRUE)) {
+        stop("Package \"e1071\" needed for this function to work. Please install it.",
+             call. = FALSE)
+    }
+
     return(caret::confusionMatrix(factor(edObject$classification$Event),
                                   reference = factor(reference),
                                   positive = "TRUE"))
