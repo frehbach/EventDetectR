@@ -2,7 +2,7 @@ context("detectionQuality")
 
 test_that("confusionMatrix works",
           {
-              if(!requireNamespace("caret") | !requireNamespace("e1071")){
+              if(require("caret") & require("e1071")){
                   train <- geccoIC2018Train[15000:18000,]
                   edObject <- detectEvents(train[,-c(1,11)],windowSize = 500, nIterationsRefit = 200,verbosityLevel = 2,
                                            postProcessorControl = list(nStandardDeviationsEventThreshhold = 3))
