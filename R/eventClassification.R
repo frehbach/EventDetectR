@@ -12,8 +12,8 @@ eventClassification <- function(object, newData, ...) {
     if(is.null(object$predictions)){
         stop("Predictions Object was empty when trying to classify events")
     }
-    if(length(object$removedVariables[[1]]) > 0){
-        removeVars <- which(colnames(newData) %in% unlist(object$removedVariables))
+    if(length(object$excludedVariables[[1]]) > 0){
+        removeVars <- which(colnames(newData) %in% unlist(object$excludedVariables))
         newData <- newData[,-removeVars]
     }
     if(!(all(dim(object$predictions) == dim(newData)))){

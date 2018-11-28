@@ -224,7 +224,7 @@ buildEDModel <- function(x,
 
     ## Add remark for removed variables
     ##
-    model$removedVariables <- removedVarNames
+    model$excludedVariables <- removedVarNames
 
     ## Add information from oldModel
     if(!is.null(oldModel)){
