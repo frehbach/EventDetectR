@@ -21,9 +21,9 @@ model_UnivariateForecast <- function(x, strName, control){
 
     #Check if used model is a real model or a direct forecaster
     if(is.null(modellingAlgo)){
-        model$isDirectForecast = T
+        model$internal$isDirectForecast = T
     }else{
-        model$isDirectForecast = F
+        model$internal$isDirectForecast = F
     }
 
     #Direct Forecasters
@@ -34,7 +34,7 @@ model_UnivariateForecast <- function(x, strName, control){
     if(strName == "Thetaf") modellingAlgo <- forecast::thetaf
     if(strName == "SES") modellingAlgo <- forecast::ses
 
-    model$usedModellingAlgo <- modellingAlgo
+    model$internal$usedModellingAlgo <- modellingAlgo
 
     if(ncol(x) > 1){
         modelList <- list()
@@ -73,8 +73,8 @@ predict.UnivariateForecast <- function(object,newData = NULL, ...){
     ## Predict with each model in given modelList
     predictions <- matrix(, nrow=dataLength,ncol=length(object$modelList))
     for(i in 1:length(object$modelList)){
-        if(object$isDirectForecast){
-            predictions[,i] <- as.data.frame(do.call(object$usedModellingAlgo,
+        if(object$internal$isDirectForecast){
+            predictions[,i] <- as.data.frame(do.call(object$internal$usedModellingAlgo,
                                                      list(y = object$modelList[[i]]$x, h = dataLength)))[,1]
         }else{
             predictions[,i] <- as.data.frame(forecast(object$modelList[[i]], h = dataLength))[,1]

@@ -206,16 +206,16 @@ buildEDModel <- function(x,
         }
     }
     #%call to specified postprocessor. Function should accept the model and add
-    # the postprocessor to it like $postProcessing <- ...
+    # the postprocessor to it like $internal$postProcessing <- ...
     # Each predict function should then contain a call to the given postprocessor
 
 
     ## Add ControlLists to model -----
     ##
     ## ControlLists can then be called by each submodule
-    model$dataPreparationControl <- dataPreparationControl
-    model$buildModelControl <- buildModelControl
-    model$postProcessorControl <- postProcessorControl
+    model$userConfig$dataPreparationControl <- dataPreparationControl
+    model$userConfig$buildModelControl <- buildModelControl
+    model$userConfig$postProcessorControl <- postProcessorControl
 
     ## Add Normalization Scale Factors to model ----
     ##

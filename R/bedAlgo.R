@@ -5,7 +5,7 @@
 #' @return model model with added postprocessing step
 #' @keywords internal
 bedAlgo <- function(model){
-    model$postProcessing <- function(model, events){
+    model$internal$postProcessing <- function(model, events){
         nEvents <- length(events)
         hist <- model$eventHistory
         lenHist <- length(hist)

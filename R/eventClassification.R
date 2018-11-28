@@ -22,7 +22,7 @@ eventClassification <- function(object, newData, ...) {
 
     ## Apply Normalization -----
     ##
-    if(isTRUE(object$dataPreparationControl$useNormalization)){
+    if(isTRUE(object$userConfig$dataPreparationControl$useNormalization)){
         newData <- scale(newData,center = object$normalization$scaleCenter,
                          scale = object$normalization$scaleSD)
     }
@@ -30,12 +30,12 @@ eventClassification <- function(object, newData, ...) {
     ## Calculate residuals from newData and predictions
     residuals <- abs(newData - object$predictions)
 
-    events <- apply((residuals > object$postProcessorControl$nStandardDeviationsEventThreshhold),1,any)
+    events <- apply((residuals > object$userConfig$postProcessorControl$nStandardDeviationsEventThreshhold),1,any)
     object$eventHistory <- c(object$eventHistory, events)
 
     ## Call postprocessing interface with the calculated predictions
     ## Return event detection results
-    object$lastPredictedEvents <- object$postProcessing(object, events)
+    object$lastPredictedEvents <- object$internal$postProcessing(object, events)
     return(object)
 }
 
