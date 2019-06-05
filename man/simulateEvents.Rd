@@ -5,30 +5,31 @@
 \title{Generates simulated events}
 \usage{
 simulateEvents(Data, Params, Event_type, Event_strength = NULL,
-  Start_index, Event_duration = NULL, Percentage = NULL)
+  Start_index = NULL, Event_duration = NULL, Percentage = NULL)
 }
 \arguments{
-\item{Data}{Data frame or matrix containing the data which will undergo the transformations.}
+\item{Data}{Data frame or matrix containing the data to which the events will be introduced}
 
-\item{Params}{Vector or vector of strings indicating the column names (in case Data is a data frame) or the column
+\item{Params}{Numeric vector or vector of strings indicating the column names (in case Data is a data frame) or the column
 numbers (in case Data is a matrix) of the parameters in which an event will be simulated}
 
 \item{Event_type}{String vector indicating which type of transformation the parameters will undergo.
-Current valid options include sinusoidal, square, ramp, binomial and slowsinusoidal. If Params contains more that one
-elements and Event_type only contains one element the same transformation will be applied to all given Params}
+Current valid options include sinusoidal, square, ramp and slowsinusoidal. If Params contains more that one
+element and Event_type only contains one element the same transformation will be applied to all given Params}
 
 \item{Event_strength}{(Optional) Numeric Vector indicating the amplitude. Only valid for sinusoidal and square
-transformations}
+transformations. When specified for other type of transformations it will have no effect. However it must have
+the same number of elemets as Params.}
 
-\item{Start_index}{Index indicated where the event should start}
+\item{Start_index}{Numeric, indicates the index where the event should start}
 
 \item{Event_duration}{Numeric, indicates the number of steps the transformation should last. Default is 100}
 
-\item{Percentage}{Numeric value from 0 to 1. Alternative input indicating the percentage of data that
+\item{Percentage}{(Optional) Numeric value from 0 to 1. Alternative input indicating the percentage of data that
 should be affected by the transformation. Either Event_duration or Percentage should be especified.}
 }
 \value{
-Matrix or data frame containing the transformed columns
+Matrix or data frame containing the selected columns with simulated events
 }
 \description{
 Simulates Events on columns of a data frame or a matrix by appliying different transformations.
@@ -37,8 +38,18 @@ square, binomial or ramp.
 }
 \examples{
 
-#Generate event of type sinusoidal and binomial on two columns of the stationBData data set
+#Generate event of type sinusoidal and ramp on two columns of the stationBData data set
 simupar<-c("B_PH_VAL","B_TEMP_VAL")
-SimulatedEvents<-simulateEvents(stationBData,simupar,Event_type = c("sinusoidal","ramp"), Start_index = 2500)
+SimulatedEvents<-simulateEvents(stationBData,
+                                simupar,Event_type = c("sinusoidal","ramp"),
+                                Start_index = 2500)
+
+#When specifiying Event_strength the lenght of the vector needs to match the number
+#of elements in Params.
+SimulatedEvents<-simulateEvents(stationBData,
+                                simupar,Event_type = c("sinusoidal","ramp"),
+                                Start_index = 2500,
+                                Percentage = 0.2,
+                                Event_strength = c(4,1))
 
 }
