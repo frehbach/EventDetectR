@@ -89,8 +89,9 @@ Intro_simulated_event<-simulateEvent(stationBData,
                          Event_duration = NULL,
                          Percentage = NULL)
 ```
-This function call defaults the Event_duration to 100 data points, from data index 2500 to 2600. The vizualitation of the changes introduced to B_PH_VAL are showed below.
-                        
+Since it was not specified on the function call the event duration defaults to 100 data points (from data index 2500 to 2600). The vizualitation of the changes introduced to B_PH_VAL are showed in red on the graph below.
+
+![Alt text](doc/simulated_event.png?raw=true "Title")                        
 
 -------------
 
