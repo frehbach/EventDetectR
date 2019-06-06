@@ -1,6 +1,6 @@
 # EventDetectR <img src="man/figures/eventdetectr-logo.png" align="right" width="181" height="209" alt="EventDetectR Logo" />
 ## General Info
-[EventDetectR](https://frehbach.github.io/EventDetectR/) is an R-package for detecting/classifiying events in time-series data.
+[EventDetectR](https://frehbach.github.io/EventDetectR/) is an R-package for simulating, detecting and classifiying events in time-series data.
 It aims to combine multiple well-known R-packages like the forecast package to deliver an easily configurable tool for event detection.
 
 ## Current Project Status
@@ -73,6 +73,24 @@ The event classification itself is shown in the graph below. #TODO make this gra
 ![Alt text](doc/windowImage.png?raw=true "Title")
 
 At each classification iteration, a window of 'windowSize' datapoints (shown in blue) is first prepared with the specified data preparators. Next, a model is fitted and used to predict the next 'nIterationsRefit' data into the future. The real data (shown in red) is compared to the prediction in order to calculate residuals. These residuals together with the specified classification threshholds is used to decide which data is considered as event and which is considered background. After the classification, the window is moved by 'nIterationsRefit' rows in the data.frame and the procedure is repeated until the end of the data.frame / time-series is reached, and thus all elements are classified.
+
+## Event Simulator
+
+The newest version of the package includes the function simulateEvents. This function introduces simulated events into the time series/data.frame. At the moment 4 different types of events are included: Sinusoidal, Ramp, Slowsinusoidal and Square. The strenght and the duration of the event can be controlled on the function call.
+
+The usage of the function can be illustrated using the data set stationBData, already included on the package. An inconsistency following a sinusoidal pattern can be introduced on the B_PH_VAL in a given index range.  
+
+```R
+Intro_simulated_event<-simulateEvent(stationBData,
+                         Params=c("B_PH_VAL","B_TEMP_VAL"),
+                         Event_type = c("sinusoidal", "ramp"),
+                         Event_strength = c(1,1),
+                         Start_index = 2500,
+                         Event_duration = NULL,
+                         Percentage = NULL)
+```
+This function call defaults the Event_duration to 100 data points, from data index 2500 to 2600. The vizualitation of the changes introduced to B_PH_VAL are showed below.
+                        
 
 -------------
 
