@@ -4,22 +4,22 @@
 #'
 #' @return model model with added postprocessing step
 #' @keywords internal
-bedAlgo <- function(model){
-    model$internal$postProcessing <- function(model, events){
-        nEvents <- length(events)
-        hist <- model$eventHistory
-        lenHist <- length(hist)
+bedAlgo <- function(model) {
+  model$internal$postProcessing <- function(model, events) {
+    nEvents <- length(events)
+    hist <- model$eventHistory
+    lenHist <- length(hist)
 
-        eventThreshhold <- 4
-        windowSize <- 10
+    eventThreshhold <- 4
+    windowSize <- 10
 
-        realEvents <- rep(F,nEvents)
+    realEvents <- rep(F, nEvents)
 
-        for(i in 1:nEvents){
-            realEvents[i] <- sum(model$eventHistory[(max(1,lenHist-i+1 - windowSize)):(lenHist-i+1)]) > 1
-        }
-
-        return(realEvents)
+    for (i in 1:nEvents) {
+      realEvents[i] <- sum(model$eventHistory[(max(1, lenHist - i + 1 - windowSize)):(lenHist - i + 1)]) > 1
     }
-    return(model)
+
+    return(realEvents)
+  }
+  return(model)
 }
