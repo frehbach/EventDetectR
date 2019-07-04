@@ -6,17 +6,24 @@
 #' @keywords internal
 bedAlgo <- function(model){
     model$internal$postProcessing <- function(model, events){
-        nEvents <- length(events)
-        hist <- model$eventHistory
-        lenHist <- length(hist)
+        hist <- events
+        hist[1:length(hist)] <- F
+        if(!is.null(model$oldModel)){
+            hist <- model$oldModel$eventHistory
+        }
 
-        eventThreshhold <- 4
-        windowSize <- 10
+        nEvents <- length(events)
+        combinedEventVector <- c(hist, events)
+
+        eventThreshhold <- 4#30
+        windowSize <- min(10, nEvents)#40
 
         realEvents <- rep(F,nEvents)
 
-        for(i in 1:nEvents){
-            realEvents[i] <- sum(model$eventHistory[(max(1,lenHist-i+1 - windowSize)):(lenHist-i+1)]) > 1
+        for(i in (nEvents + 1):length(combinedEventVector)){
+            if((!is.na(combinedEventVector[i])) && combinedEventVector[i]){
+                realEvents[i-nEvents] <- (sum(combinedEventVector[(i-windowSize):i]) > eventThreshhold)
+            }
         }
 
         return(realEvents)
