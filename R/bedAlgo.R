@@ -15,8 +15,15 @@ bedAlgo <- function(model){
         nEvents <- length(events)
         combinedEventVector <- c(hist, events)
 
-        eventThreshhold <- 4#30
-        windowSize <- min(10, nEvents)#40
+
+        postProcessorControl <- model$userConfig$postProcessorControl
+        con <- getDefaultPostControl()
+        con[names(postProcessorControl)] <- postProcessorControl
+        postProcessorControl <- con
+        rm(con)
+
+        eventThreshhold <- postProcessorControl$eventThreshhold
+        windowSize <- min(postProcessorControl$windowSize, nEvents)#40
 
         realEvents <- rep(F,nEvents)
 
