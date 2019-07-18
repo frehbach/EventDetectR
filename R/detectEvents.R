@@ -171,6 +171,10 @@ print.edObject <- function(x, ...){
     print(tail(x$classification, nLast))
 }
 
+#' Plot an Event Detection Object
+#'
+#' export
+#'
 plot.edObject <- function(edObject, varsToPlot = names(edObject$classification)){
     library(ggplot2)
     library(gridExtra)
