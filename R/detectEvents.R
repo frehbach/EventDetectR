@@ -173,7 +173,7 @@ print.edObject <- function(x, ...){
 
 #' Plot an Event Detection Object
 #'
-#' export
+#' @export
 #'
 plot.edObject <- function(edObject, varsToPlot = names(edObject$classification)){
     library(ggplot2)
