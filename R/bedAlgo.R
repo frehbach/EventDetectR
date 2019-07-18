@@ -25,7 +25,8 @@ bedAlgo <- function(model){
         eventThreshhold <- postProcessorControl$eventThreshhold
         windowSize <- min(postProcessorControl$windowSize, nEvents)#40
 
-        realEvents <- rep(F,nEvents)
+
+    realEvents <- rep(F, nEvents)
 
         for(i in (nEvents + 1):length(combinedEventVector)){
             if((!is.na(combinedEventVector[i])) && combinedEventVector[i]){
@@ -35,5 +36,8 @@ bedAlgo <- function(model){
 
         return(realEvents)
     }
-    return(model)
+
+    return(realEvents)
+  }
+  return(model)
 }
