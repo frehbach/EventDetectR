@@ -37,7 +37,5 @@ bedAlgo <- function(model){
         return(realEvents)
     }
 
-    return(realEvents)
-  }
   return(model)
 }
