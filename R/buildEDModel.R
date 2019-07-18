@@ -192,6 +192,8 @@ buildEDModel <- function(x,
     }
     #%TODO Missing Add general code call for type 'other' models
 
+    model$oldModel <- oldModel
+
     ## -----------------------
     ##
     ## Add Postprocessor to model
@@ -226,9 +228,5 @@ buildEDModel <- function(x,
     ##
     model$excludedVariables <- removedVarNames
 
-    ## Add information from oldModel
-    if(!is.null(oldModel)){
-        model$eventHistory <- oldModel$eventHistory
-    }
     return(model)
 }

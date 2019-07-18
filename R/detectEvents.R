@@ -130,7 +130,9 @@ detectEvents <- function(x,
                                 buildModelAlgo, buildModelControl,
                                 postProcessors, postProcessorControl, ignoreVarianceWarning, edModel)
         newData <- x[(index + windowSize + 1):min(index + windowSize + nIterationsRefit, nrow(x)),,drop=FALSE]
-        p <- predict(edModel,newData)$lastPredictedEvents
+        p <- predict(edModel,newData)
+        edModel$eventHistory <- p$eventHistory
+        p <- p$lastPredictedEvents
         classification <- rbind(classification, p)
         index <- index + nIterationsRefit
     }
@@ -167,4 +169,26 @@ print.edObject <- function(x, ...){
         nLast <- args$nLast
     }
     print(tail(x$classification, nLast))
+}
+
+plot.edObject <- function(edObject, varsToPlot = names(edObject$classification)){
+    library(ggplot2)
+    library(gridExtra)
+
+    varsToPlot <- varsToPlot[-which(varsToPlot=="Event")]
+
+    nPlots <- length(varsToPlot)-1
+    plotList <- list()
+
+    ind <- 0
+    for(p in varsToPlot){
+        ind <- ind + 1
+        plotList[[ind]] <- ggplot2::ggplot(data = data.frame(x = 1:length(edObject$classification[[p]]), y = edObject$classification[[p]])) +
+            ggplot2::geom_point(ggplot2::aes(x = x, y = y,colour = !edObject$classification$Event), show.legend = FALSE)
+    }
+
+
+    nCol <- max(1,floor(sqrt(nPlots)))
+    do.call("grid.arrange", c(plotList, ncol=nCol))
+
 }

@@ -47,7 +47,7 @@ model_UnivariateForecast <- function(x, strName, control){
         return(model)
     }else{
         control$y <- x
-        model$modelList <- do.call(modellingAlgo,control)
+        model$modelList <- list(do.call(modellingAlgo,control))
         class(model) <- "UnivariateForecast"
         return(model)
     }
