@@ -8,5 +8,5 @@
   varsToPlot = names(edObject$classification))
 }
 \description{
-export
+Plot an Event Detection Object
 }
