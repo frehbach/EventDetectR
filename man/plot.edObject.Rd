@@ -7,6 +7,14 @@
 \method{plot}{edObject}(edObject,
   varsToPlot = names(edObject$classification))
 }
+\arguments{
+\item{edObject}{Plot}
+
+\item{varsToPlot}{vars}
+}
+\value{
+A Plot
+}
 \description{
-export
+Plot an Event Detection Object
 }

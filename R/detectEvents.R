@@ -173,11 +173,13 @@ print.edObject <- function(x, ...){
 
 #' Plot an Event Detection Object
 #'
+#' @param  edObject Plot
+#' @param varsToPlot vars
+#' @return A Plot
+#' @import ggplot2
+#' @import gridExtra
 #' @export
-#'
 plot.edObject <- function(edObject, varsToPlot = names(edObject$classification)){
-    library(ggplot2)
-    library(gridExtra)
 
     varsToPlot <- varsToPlot[-which(varsToPlot=="Event")]
 
