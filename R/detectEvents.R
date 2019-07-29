@@ -141,6 +141,10 @@ detectEvents <- function(x,
     return(edModel)
 }
 
+model_name <- function(x, ...){
+    sub("forecast_", "", class(x)[1])
+}
+
 #' Print an Event Detection Object
 #'
 #' Prints the last classification results for an event detection object.
@@ -155,10 +159,10 @@ print.edObject <- function(x, ...){
     nModels <- length(x$modelList)
     if(nModels > 1){
         writeLines(paste0("Event Detection Object with ", nModels, " "
-                     , class(x$modelList[[1]])[1], " submodels"))
+                     , model_name(x$modelList[[1]]), " submodels"))
     }else if(nModels == 1){
         writeLines(paste0("Event Detection Object with 1 "
-                     , class(x$modelList[[1]])[1], " submodel"))
+                     , model_name(x$modelList[[1]]), " submodel"))
     }else{
         writeLines("Event Detection Object with no fitted models")
     }
