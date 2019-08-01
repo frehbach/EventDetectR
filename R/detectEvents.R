@@ -126,7 +126,15 @@ detectEvents <- function(x,
                 print(paste0("EDS is working on index: ",index + nIterationsRefit))
             }
         }
-        edModel <- buildEDModel(x[index:(index + windowSize),,drop=FALSE],dataPrepators,dataPreparationControl,
+        if(is.null(edModel)){
+            modelingData <- x[index:(index + windowSize),,drop=FALSE]
+        }else{
+            modelingData <- x[1:(index + windowSize),,drop=FALSE]
+            eventPositions <- which(edModel$eventHistory)
+            modelingData <- modelingData[-eventPositions, , drop = FALSE]
+            modelingData <- modelingData[(nrow(modelingData) - windowSize + 1):nrow(modelingData), , drop=FALSE]
+        }
+        edModel <- buildEDModel(modelingData,dataPrepators,dataPreparationControl,
                                 buildModelAlgo, buildModelControl,
                                 postProcessors, postProcessorControl, ignoreVarianceWarning, edModel)
         newData <- x[(index + windowSize + 1):min(index + windowSize + nIterationsRefit, nrow(x)),,drop=FALSE]
