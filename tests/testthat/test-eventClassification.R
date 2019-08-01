@@ -26,10 +26,11 @@ test_that("prediction works correct",
               expect_equal(ncol(p),ncol(stationBData)-1+1)
               expect_equal(typeof(p$Event),"logical")
 
-              m1 <- buildEDModel(x,postProcessorControl = list(nStandardDeviationsEventThreshhold = 1))
+              m1 <- buildEDModel(x,postProcessorControl = list(nStandardDeviationsEventThreshhold = 0.1))
               m2 <- buildEDModel(x,postProcessorControl = list(nStandardDeviationsEventThreshhold = 50))
               p1 <- predict(m1,newDataReal)$lastPredictedEvents
               p2 <- predict(m2,newDataReal)$lastPredictedEvents
+              sum(p1$Event)
               expect_true(sum(p1$Event)>sum(p2$Event))
               expect_true(!any(p2$Event))
 

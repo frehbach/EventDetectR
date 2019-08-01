@@ -132,7 +132,7 @@ buildEDModel <- function(x,
     ## -----------------------
     if(length(postProcessors) <= 1 & !is.null(postProcessors)){
         if(!(postProcessors %in% unlist(allSupportedPostProcessors))){
-            stop("The specified preparator is not supported, please check your input for 'dataPreparators'")
+            warning("The specified preparator is not supported, please check your input for 'dataPreparators'")
         }
     }else{
         for(p in postProcessors){
