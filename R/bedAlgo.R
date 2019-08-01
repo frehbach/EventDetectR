@@ -27,9 +27,9 @@ bedAlgo <- function(model){
         eventThreshold <- postProcessorControl$eventThreshold ## a probability value from 0 to 1
         BEDWindowSize <- model$userConfig$postProcessorControl$bedWindowSize
         BEDProbList <- NULL
-        baselinePositions <- NULL
-        baselineCounter <- 0
-        baselineLimit <- postProcessorControl$baselineLimit
+        #baselinePositions <- NULL
+        #baselineCounter <- 0
+        #baselineLimit <- postProcessorControl$baselineLimit
         realEvents <- rep(F,nEvents)
 
 
