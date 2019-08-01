@@ -26,6 +26,7 @@ getDefaultModelControl <- function() {
 getDefaultPostControl <- function() {
     defaultControlList <- list(
         nStandardDeviationsEventThreshhold = 2,
-        eventThreshold = .7
+        eventThreshold = .7,
+        bedWindowSize = 30
     )
 }

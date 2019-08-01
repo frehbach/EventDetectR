@@ -2,7 +2,9 @@
 % Please edit documentation in R/bedAlgo.R
 \name{bedAlgo}
 \alias{bedAlgo}
-\title{Dummy BED algo, has to be changed}
+\title{bedAlgo provides the continuous probability of an event at every prediction timestep.
+ The memory about the recent past event is automatically included to predict the future.
+ An event is initiated when the BED probability exceeds the eventThreshhold.}
 \usage{
 bedAlgo(model)
 }
@@ -10,9 +12,14 @@ bedAlgo(model)
 \item{model}{model to which the postprocessor shall be added}
 }
 \value{
-model model with added postprocessing step
+model model with added postprocessing results
 }
 \description{
-Dummy BED algo, has to be changed
+bedAlgo provides the continuous probability of an event at every prediction timestep.
+ The memory about the recent past event is automatically included to predict the future.
+ An event is initiated when the BED probability exceeds the eventThreshhold.
+}
+\author{
+Sowmya
 }
 \keyword{internal}
