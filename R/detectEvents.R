@@ -197,8 +197,11 @@ plot.edObject <- function(x, varsToPlot = names(edObject$classification),...){
     ind <- 0
     for(p in varsToPlot){
         ind <- ind + 1
-        plotList[[ind]] <- ggplot2::ggplot(data = data.frame(x = 1:length(edObject$classification[[p]]), y = edObject$classification[[p]])) +
-            ggplot2::geom_point(ggplot2::aes(x = x, y = y,colour = !edObject$classification$Event), show.legend = FALSE)
+        plotList[[ind]] <- ggplot2::ggplot(data = data.frame(x = 1:length(edObject$classification[[p]]),
+                                                             y = edObject$classification[[p]])) +
+            ggplot2::geom_point(ggplot2::aes(x = x, y = y,
+                                             colour = !edObject$classification$Event), show.legend = FALSE) +
+            xlab("time-index") + ylab(p)
     }
 
 
