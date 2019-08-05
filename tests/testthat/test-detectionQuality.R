@@ -4,6 +4,7 @@ context("detectionQuality")
 test_that("confusionMatrix works",
           {
               skip_on_cran()
+              testthat::skip_on_os("windows")
 
               if(require("caret") & require("e1071")){
                   train <- geccoIC2018Train[15000:17000,]
