@@ -1,8 +1,9 @@
 #' @title EventDetectR-package description
 #' @description
-#' The EventDetectR package is a modular event detection system
+#' Detect events/ anomalies in time-series data.
+
 #'
-#' @details The EventDetectR package is very good, you can use it like this...
+#' @details The EventDetectR package is a tool to detect events in time-series data. It combines multiple well-known R packages like 'forecast' to deliver an easily configurable tool for event detection.
 #'
 #' @name EventDetectR-package
 #'
