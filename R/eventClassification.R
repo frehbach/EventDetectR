@@ -17,7 +17,7 @@ eventClassification <- function(object, newData, ...) {
         newData <- newData[,-removeVars]
     }
     if(!(all(dim(object$predictions) == dim(newData)))){
-        stop("Predictions dimensions do not match newData dimensions when tying to classify events")
+        stop("Predictions dimensions do not match newData dimensions when trying to classify events")
     }
 
     ## Apply Normalization -----

@@ -46,6 +46,7 @@ getSupportedModels <- function() {
                                               "ForecastThetaf",
                                               "ForecastSES"
                                               ),
+        supportedMultivariateModels=c("NeuralNetwork"),
         other = c()
     )
     return(allSupportedModels)

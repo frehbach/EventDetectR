@@ -50,7 +50,7 @@
 #'                     buildModelAlgo = "ForecastArima")}
 detectEvents <- function(x,
                          windowSize = 100,
-                         nIterationsRefit = 50,
+                         nIterationsRefit = 1,
                          verbosityLevel = 0,
                          dataPrepators = "ImputeTSInterpolation",
                          dataPreparationControl = list(),
@@ -110,7 +110,10 @@ detectEvents <- function(x,
     if(verbosityLevel < 0){
         stop("detectEvents: verbosityLevel too small, minimum is 0")
     }
-
+# Added by Sowmya
+    if(any(is.na(x))){
+        stop("detectEvents: x contains NAs. Kindly choose appropriate dataPreparators")
+    }
 
     classification <- NULL
     Event <- rep(FALSE,windowSize)
@@ -138,7 +141,15 @@ detectEvents <- function(x,
                                 buildModelAlgo, buildModelControl,
                                 postProcessors, postProcessorControl, ignoreVarianceWarning, edModel)
         newData <- x[(index + windowSize + 1):min(index + windowSize + nIterationsRefit, nrow(x)),,drop=FALSE]
-        p <- predict(edModel,newData)
+## Added by Sowmya
+        if(buildModelAlgo=="NeuralNetwork")
+         {
+        p <- predict.NeuralNetwork(edModel,newData)
+        }
+
+        else{
+            p <- predict(edModel,newData)
+                }
         edModel$eventHistory <- p$eventHistory
         p <- p$lastPredictedEvents
         classification <- rbind(classification, p)
@@ -214,6 +225,7 @@ plot.edObject <- function(x, varsToPlot = names(edObject$classification),...){
 
 
     nCol <- max(1,floor(sqrt(nPlots)))
-    do.call("grid.arrange", c(plotList, ncol=nCol))
-
+   # do.call("grid.arrange", c(plotList, ncol=nCol))
+    ## Added by Sowmya
+    do.call("grid.arrange", c(plotList, ncol=1))
 }

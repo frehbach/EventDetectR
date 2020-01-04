@@ -159,7 +159,13 @@ buildEDModel <- function(x,
 
 
     ## Apply Normalization --------------
-    ##
+
+    ## Added by Sowmya
+    ## Define minmax normalization method for neural network models
+
+    minmax_normalize <- function(x) {
+      return ((x - min(x)) / (max(x) - min(x)))
+    }
     ## Variables which have no variance will be removed!
     ## A warning is generated if this happens
     ##
@@ -178,7 +184,13 @@ buildEDModel <- function(x,
             }
         removedVarNames <- list(colnames(x)[zeroVarianceVars])
         x <- x[,!zeroVarianceVars]
+# Added by Sowmya
+        #         if(buildModelAlgo=="NeuralNetwork"){
+        #   x <- as.data.frame(lapply(x, minmax_normalize))
+        # }
+        # else{
         x <- scale(x)
+        #}
     }
 
     ## -----------------------
@@ -191,6 +203,11 @@ buildEDModel <- function(x,
         model <- model_UnivariateForecast(x, modelStr, buildModelControl)
     }
     #%TODO Missing Add general code call for type 'other' models
+    ## Added by Sowmya --- Multivariate NeuralNetwork model
+    if(buildModelAlgo %in% allSupportedModels$supportedMultivariateModels){
+
+      model <- model_NeuralNetwork(x, buildModelControl)
+    }
 
     model$oldModel <- oldModel
 
@@ -221,8 +238,12 @@ buildEDModel <- function(x,
 
     ## Add Normalization Scale Factors to model ----
     ##
+  #  if(buildModelAlgo!="NeuralNetwork")
+      {
     model$normalization$scaleCenter <- attr(x,"scaled:center")
     model$normalization$scaleSD <- attr(x,"scaled:scale")
+    }
+
 
     ## Add remark for removed variables
     ##

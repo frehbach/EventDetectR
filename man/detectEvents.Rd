@@ -4,7 +4,7 @@
 \alias{detectEvents}
 \title{detectEvents in a given data.frame}
 \usage{
-detectEvents(x, windowSize = 100, nIterationsRefit = 50,
+detectEvents(x, windowSize = 100, nIterationsRefit = 1,
   verbosityLevel = 0, dataPrepators = "ImputeTSInterpolation",
   dataPreparationControl = list(), buildModelAlgo = "ForecastETS",
   buildModelControl = list(), postProcessors = "bedAlgo",

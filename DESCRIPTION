@@ -1,7 +1,7 @@
 Package: EventDetectR
 Version: 0.3.3
 Title: Event Detection Framework
-Description: Detect / classify events in time-series data. Combines multiple well-known R packages like 'forecast' to deliver an easily configurable tool for event detection.
+Description: Detect / classify events in time-series data. Combines multiple well-known R packages like 'forecast' and 'neuralnet' to deliver an easily configurable tool for multivariate event detection.
 Author: Frederik Rehbach [aut, cre], Steffen Moritz [aut] (<https://orcid.org/0000-0002-0085-1804>)
 Authors@R: 
   c(
