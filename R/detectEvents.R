@@ -111,9 +111,9 @@ detectEvents <- function(x,
         stop("detectEvents: verbosityLevel too small, minimum is 0")
     }
 # Added by Sowmya
-    if(any(is.na(x))){
-        stop("detectEvents: x contains NAs. Kindly choose appropriate dataPreparators")
-    }
+    # if(any(is.na(x))){
+    #     stop("detectEvents: x contains NAs. Kindly choose appropriate dataPreparators")
+    # }
 
     classification <- NULL
     Event <- rep(FALSE,windowSize)

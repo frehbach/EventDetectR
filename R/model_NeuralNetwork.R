@@ -48,9 +48,6 @@ predict.NeuralNetwork <- function(object,newData = NULL, ...){
     ## How many points shall be predicted into the future? Default = 10
     if(!is.null(newData)){
         dataLength <- nrow(newData)
-    }else{
-        dataLength <- 10
-    }
 
     ## Predict with each model in given modelList
     predictions <- matrix(, nrow=dataLength,ncol=length(object$modelList))
@@ -67,10 +64,7 @@ predict.NeuralNetwork <- function(object,newData = NULL, ...){
 
     object$predictions <- predictions
 
-    ## If no newData is given, then only return the model predictions, no need for eventClassification
-    if(is.null(newData)){
-        return(predictions)
-    }else{
+
         ## Call ED standard eventClassification Method
         object <- eventClassification(object,newData,...)
         Event <- object$lastPredictedEvents
