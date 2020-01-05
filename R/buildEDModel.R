@@ -37,11 +37,14 @@
 #' @examples
 #'
 #' ## build a simple event detection model with standard configuration
-#' x <- stationBData[1:2000,-1]
+#' x <- stationBData[100:200,-1]
 #' buildEDModel(x)
 #'
 #' ## Set up a more complex event detection model defining some additional configuration
 #' buildEDModel(x, dataPrepators = "ImputeTSMean", buildModelAlgo = "ForecastArima")
+#'
+#'  ## Set up a multivariate neuralnetwork model
+#' buildEDModel(x, dataPrepators = "ImputeTSMean", buildModelAlgo = "NeuralNetwork")
 buildEDModel <- function(x,
                          dataPrepators = "ImputeTSInterpolation",
                          dataPreparationControl = list(),

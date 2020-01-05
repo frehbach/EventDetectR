@@ -69,5 +69,11 @@ ed <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
 ## Switch to another model: Arima
 ed2 <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
                     verbosityLevel = 2,ignoreVarianceWarning = TRUE,
-                    buildModelAlgo = "ForecastArima")}
+                    buildModelAlgo = "ForecastArima")
+
+    ## Switch to multivariate model: NeuralNetwork
+ed3 <- detectEvents(stationBData[100:200,-1],nIterationsRefit = 50,
+                    verbosityLevel = 2,ignoreVarianceWarning = TRUE,
+                    buildModelAlgo = "NeuralNetwork",postProcessors = "bedAlgo")
+                    }
 }
