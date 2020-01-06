@@ -11,6 +11,13 @@
 model_NeuralNetwork <- function(x, control){
     model <- NULL
     modelList <- list()
+
+
+    con <- getDefaultNeuralNetModelControl()
+    con[names(control)] <- control
+    control <- con
+    rm(con)
+
     for(i in 1:ncol(x)){
 
         past_data   <- x[1:(nrow(x)-1),i]
@@ -18,7 +25,10 @@ model_NeuralNetwork <- function(x, control){
         model_input <- data.frame(model_input)
         n1<-names(model_input)
         nn_input <- as.formula(paste(n1[i],"~", paste(n1[!n1 %in% n1[i]], collapse = " + ")))
-        nn_model <- neuralnet(nn_input,data=model_input,linear.output = T,hidden=3,algorithm = "rprop+")
+        nn_model <- neuralnet(nn_input,data=model_input,hidden = control$nn_hiddenlayers, threshold = control$nn_threshold,stepmax = control$nn_stepmax, rep = control$nn_rep, startweights = control$nn_startweights,
+learningrate.limit = control$nn_learningrate.limit, learningrate.factor = control$nn_learningrate.factor, learningrate = control$nn_learningrate, lifesign = control$nn_lifesign, lifesign.step = control$nn_lifesign.step, algorithm = control$nn_algorithm, err.fct = control$nn_err.fct,
+act.fct = control$nn_act.fct, linear.output = control$nn_linear.output, exclude = control$nn_exclude,
+constant.weights = control$nn_constant.weights, likelihood = control$nn_likelihood)
 
      modelList[[paste0("model",i)]] <-nn_model
         }
@@ -57,8 +67,8 @@ predict.NeuralNetwork <- function(object,newData = NULL, ...){
         previousStep <- tail(object$modelList[[i]]$data$past_data,n=1)
         inputData <-  newData[, !(names(newData) %in% unlist(object$excludedVariables))]
         test_input <- data.frame(inputData[,-i],past_data=previousStep)
-        computed_value <- compute(object$modelList[[i]],test_input)
-        predictions[,i] <- as.data.frame(computed_value$net.result)[,1]
+        computed_value <- predict(object$modelList[[i]],test_input)
+        predictions[,i] <- as.data.frame(computed_value)[,1]
 }
     }
 

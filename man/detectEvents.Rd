@@ -7,7 +7,8 @@
 detectEvents(x, windowSize = 100, nIterationsRefit = 1,
   verbosityLevel = 0, dataPrepators = "ImputeTSInterpolation",
   dataPreparationControl = list(), buildModelAlgo = "ForecastETS",
-  buildModelControl = list(), postProcessors = "bedAlgo",
+  buildForecastModelControl = list(),
+  buildNeuralNetModelControl = list(), postProcessors = "bedAlgo",
   postProcessorControl = list(), ignoreVarianceWarning = TRUE)
 }
 \arguments{
@@ -32,8 +33,9 @@ to the dataPreparators.}
 \item{buildModelAlgo}{string, model name to be used. All possible preparators
 are listed via: getSupportedModels().}
 
-\item{buildModelControl}{list, control-list containing all additional parameters that shall be passed
-to the modelling algo.}
+\item{buildForecastModelControl}{list, control-list containing all additional parameters that shall be passed to the  forecast modelling algo.}
+
+\item{buildNeuralNetModelControl}{list, control-list containing all additional parameters that shall be passed to the neuralnet modelling algo.}
 
 \item{postProcessors}{string or vector of strings, that defines which postProcessors to use.
 Lists are not accepted. Usage Example: postProcessors = "bedAlgo" results in the usage of
@@ -75,5 +77,10 @@ ed2 <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
 ed3 <- detectEvents(stationBData[100:200,-1],nIterationsRefit = 50,
                     verbosityLevel = 2,ignoreVarianceWarning = TRUE,
                     buildModelAlgo = "NeuralNetwork",postProcessors = "bedAlgo")
+
+   ## Switch to  user configured multivariate model: NeuralNetwork
+ed4 <- detectEvents(stationBData[100:200,-1],nIterationsRefit = 50,
+                    verbosityLevel = 2,ignoreVarianceWarning = TRUE,
+                    buildModelAlgo = "NeuralNetwork",postProcessors = "bedAlgo",buildNeuralNetModelControl = list(nn_algorithm="rprop-",nn_hiddenlayers = 6))
                     }
 }

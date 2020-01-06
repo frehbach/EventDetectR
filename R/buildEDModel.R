@@ -14,8 +14,8 @@
 #' to the dataPreparators.
 #' @param buildModelAlgo string, model name to be used. All possible preparators
 #' are listed via: getSupportedModels().
-#' @param buildModelControl list, control-list containing all additional parameters that shall be passed
-#' to the modelling algo.
+#' @param buildForecastModelControl list, control-list containing all additional parameters that shall be passed to forecast modeling algorithm
+#' @param buildNeuralNetModelControl list, control-list containing all additional parameters that shall be passed to the neuralnet modeling algorithm
 #' @param postProcessors string or vector of strings, that defines which postProcessors to use.
 #' Lists are not accepted. Usage Example: postProcessors = "bedAlgo" results in the usage of
 #' bed as a event postProcessing tool. All possible preparators are listed via:
@@ -49,7 +49,7 @@ buildEDModel <- function(x,
                          dataPrepators = "ImputeTSInterpolation",
                          dataPreparationControl = list(),
                          buildModelAlgo = "ForecastETS",
-                         buildModelControl = list(),
+                         buildForecastModelControl = list(),buildNeuralNetModelControl = list(),
                          postProcessors = "bedAlgo",
                          postProcessorControl = list(),
                          ignoreVarianceWarning = FALSE,
@@ -62,9 +62,14 @@ buildEDModel <- function(x,
     dataPreparationControl <- con
     rm(con)
 
-    con <- getDefaultModelControl()
-    con[names(buildModelControl)] <- buildModelControl
-    buildModelControl <- con
+    con <- getDefaultForecastModelControl()
+    con[names(buildForecastModelControl)] <- buildForecastModelControl
+    buildForecastModelControl <- con
+    rm(con)
+
+    con <- getDefaultNeuralNetModelControl()
+    con[names(buildNeuralNetModelControl)] <- buildNeuralNetModelControl
+    buildNeuralNetModelControl <- con
     rm(con)
 
     con <- getDefaultPostControl()
@@ -167,7 +172,7 @@ buildEDModel <- function(x,
     ## Define minmax normalization method for neural network models
 
     minmax_normalize <- function(x) {
-      return ((x - min(x)) / (max(x) - min(x)))
+      return ((x - min(x,na.rm = TRUE)) / (max(x,na.rm = TRUE) - min(x,na.rm = TRUE)))
     }
     ## Variables which have no variance will be removed!
     ## A warning is generated if this happens
@@ -188,12 +193,20 @@ buildEDModel <- function(x,
         removedVarNames <- list(colnames(x)[zeroVarianceVars])
         x <- x[,!zeroVarianceVars]
 # Added by Sowmya
-        #         if(buildModelAlgo=="NeuralNetwork"){
-        #   x <- as.data.frame(lapply(x, minmax_normalize))
-        # }
-        # else{
+        min_x <- NULL
+        max_x <- NULL
+            if(buildModelAlgo=="NeuralNetwork"){
+
+            for(i in 1:ncol(x)){
+              min_x <- c(min_x,min(x[,i],na.rm = TRUE))
+              max_x <- c(max_x,max(x[,i],na.rm = TRUE))
+            }
+
+            x <- as.data.frame(lapply(x, minmax_normalize))
+        }
+        else{
         x <- scale(x)
-        #}
+        }
     }
 
     ## -----------------------
@@ -203,13 +216,13 @@ buildEDModel <- function(x,
     ## -----------------------
     if(buildModelAlgo %in% allSupportedModels$supportedUnivariateForeCastModels){
         modelStr <- substr(buildModelAlgo, nchar("Forecast") + 1, nchar(buildModelAlgo))
-        model <- model_UnivariateForecast(x, modelStr, buildModelControl)
+        model <- model_UnivariateForecast(x, modelStr, buildForecastModelControl)
     }
     #%TODO Missing Add general code call for type 'other' models
     ## Added by Sowmya --- Multivariate NeuralNetwork model
     if(buildModelAlgo %in% allSupportedModels$supportedMultivariateModels){
 
-      model <- model_NeuralNetwork(x, buildModelControl)
+      model <- model_NeuralNetwork(x, buildNeuralNetModelControl)
     }
 
     model$oldModel <- oldModel
@@ -236,18 +249,24 @@ buildEDModel <- function(x,
     ##
     ## ControlLists can then be called by each submodule
     model$userConfig$dataPreparationControl <- dataPreparationControl
-    model$userConfig$buildModelControl <- buildModelControl
+    model$userConfig$buildNeuralNetModelControl <- buildNeuralNetModelControl
+    model$userConfig$buildForecastModelControl <- buildForecastModelControl
     model$userConfig$postProcessorControl <- postProcessorControl
 
     ## Add Normalization Scale Factors to model ----
     ##
-  #  if(buildModelAlgo!="NeuralNetwork")
+    if(buildModelAlgo!="NeuralNetwork")
       {
+    model$buildModelAlgo <- "UnivariateForecast"
     model$normalization$scaleCenter <- attr(x,"scaled:center")
     model$normalization$scaleSD <- attr(x,"scaled:scale")
     }
-
-
+    if((buildModelAlgo=="NeuralNetwork") && (isTRUE(dataPreparationControl$useNormalization)))
+    {
+    model$normalization$min_x <-min_x
+    model$normalization$max_x <-max_x
+    model$buildModelAlgo <- "NeuralNetwork"
+    }
     ## Add remark for removed variables
     ##
     model$excludedVariables <- removedVarNames

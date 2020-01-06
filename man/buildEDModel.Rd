@@ -6,7 +6,8 @@
 \usage{
 buildEDModel(x, dataPrepators = "ImputeTSInterpolation",
   dataPreparationControl = list(), buildModelAlgo = "ForecastETS",
-  buildModelControl = list(), postProcessors = "bedAlgo",
+  buildForecastModelControl = list(),
+  buildNeuralNetModelControl = list(), postProcessors = "bedAlgo",
   postProcessorControl = list(), ignoreVarianceWarning = FALSE,
   oldModel = NULL)
 }
@@ -26,8 +27,9 @@ to the dataPreparators.}
 \item{buildModelAlgo}{string, model name to be used. All possible preparators
 are listed via: getSupportedModels().}
 
-\item{buildModelControl}{list, control-list containing all additional parameters that shall be passed
-to the modelling algo.}
+\item{buildForecastModelControl}{list, control-list containing all additional parameters that shall be passed to forecast modeling algorithm}
+
+\item{buildNeuralNetModelControl}{list, control-list containing all additional parameters that shall be passed to the neuralnet modeling algorithm}
 
 \item{postProcessors}{string or vector of strings, that defines which postProcessors to use.
 Lists are not accepted. Usage Example: postProcessors = "bedAlgo" results in the usage of

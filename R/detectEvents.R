@@ -19,8 +19,8 @@
 #' to the dataPreparators.
 #' @param buildModelAlgo string, model name to be used. All possible preparators
 #' are listed via: getSupportedModels().
-#' @param buildModelControl list, control-list containing all additional parameters that shall be passed
-#' to the modelling algo.
+#' @param buildForecastModelControl list, control-list containing all additional parameters that shall be passed to the  forecast modelling algo.
+#' @param buildNeuralNetModelControl list, control-list containing all additional parameters that shall be passed to the neuralnet modelling algo.
 #' @param postProcessors string or vector of strings, that defines which postProcessors to use.
 #' Lists are not accepted. Usage Example: postProcessors = "bedAlgo" results in the usage of
 #' bed as a event postProcessing tool. All possible preparators are listed via:
@@ -53,6 +53,11 @@
 #' ed3 <- detectEvents(stationBData[100:200,-1],nIterationsRefit = 50,
 #'                     verbosityLevel = 2,ignoreVarianceWarning = TRUE,
 #'                     buildModelAlgo = "NeuralNetwork",postProcessors = "bedAlgo")
+#'
+#'    ## Switch to  user configured multivariate model: NeuralNetwork
+#' ed4 <- detectEvents(stationBData[100:200,-1],nIterationsRefit = 50,
+#'                     verbosityLevel = 2,ignoreVarianceWarning = TRUE,
+#'                     buildModelAlgo = "NeuralNetwork",postProcessors = "bedAlgo",buildNeuralNetModelControl = list(nn_algorithm="rprop-",nn_hiddenlayers = 6))
 #'                     }
 detectEvents <- function(x,
                          windowSize = 100,
@@ -61,7 +66,8 @@ detectEvents <- function(x,
                          dataPrepators = "ImputeTSInterpolation",
                          dataPreparationControl = list(),
                          buildModelAlgo = "ForecastETS",
-                         buildModelControl = list(),
+                         buildForecastModelControl = list(),
+                         buildNeuralNetModelControl = list(),
                          postProcessors = "bedAlgo",
                          postProcessorControl = list(),
                          ignoreVarianceWarning = TRUE) {
@@ -144,8 +150,7 @@ detectEvents <- function(x,
             modelingData <- modelingData[(nrow(modelingData) - windowSize + 1):nrow(modelingData), , drop=FALSE]
         }
         edModel <- buildEDModel(modelingData,dataPrepators,dataPreparationControl,
-                                buildModelAlgo, buildModelControl,
-                                postProcessors, postProcessorControl, ignoreVarianceWarning, edModel)
+                                buildModelAlgo, buildForecastModelControl,buildNeuralNetModelControl,postProcessors, postProcessorControl, ignoreVarianceWarning, edModel)
         newData <- x[(index + windowSize + 1):min(index + windowSize + nIterationsRefit, nrow(x)),,drop=FALSE]
 ## Added by Sowmya
         if(buildModelAlgo=="NeuralNetwork")
@@ -231,7 +236,6 @@ plot.edObject <- function(x, varsToPlot = names(edObject$classification),...){
 
 
     nCol <- max(1,floor(sqrt(nPlots)))
-   # do.call("grid.arrange", c(plotList, ncol=nCol))
-    ## Added by Sowmya
-    do.call("grid.arrange", c(plotList, ncol=1))
+    do.call("grid.arrange", c(plotList, ncol=nCol))
+
 }

@@ -23,8 +23,18 @@ eventClassification <- function(object, newData, ...) {
     ## Apply Normalization -----
     ##
     if(isTRUE(object$userConfig$dataPreparationControl$useNormalization)){
+        if(object$buildModelAlgo!="NeuralNetwork")
+        {
         newData <- scale(newData,center = object$normalization$scaleCenter,
-                         scale = object$normalization$scaleSD)
+                         scale = object$normalization$scaleSD)}
+        if(object$buildModelAlgo=="NeuralNetwork")
+        {
+min_x <- object$normalization$min_x
+max_x <- object$normalization$max_x
+for (i in 1:ncol(newData)){
+newData[,i] <- ((newData[,i] - min_x[i]) / (max_x[i] - min_x[i]))
+}
+        }
     }
 
     ## Calculate residuals from newData and predictions

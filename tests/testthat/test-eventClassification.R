@@ -61,3 +61,37 @@ test_that("print works",
               printRes <- capture.output(print(ed))
               expect_equal(printRes[1], "Event Detection Object with no fitted models")
           })
+
+# test_that("neural network prediction works",
+#           {
+#               x <- stationBData[1000:2000,-1]
+#               m <- buildEDModel(x, dataPrepators = "ImputeTSMean", buildModelAlgo = "NeuralNetwork")
+#
+#               newDataReal <- stationBData[2001:2020,-1]
+#               p <- predict.NeuralNetwork(m,newDataReal)
+#               expect_equal(nrow(p$predictions),20)
+#               expect_equal(ncol(p$predictions),ncol(stationBData)-1)
+#               expect_equal(anyNA(p),FALSE)
+#
+#
+#               p <- predict.NeuralNetwork(m,newDataReal)$lastPredictedEvents
+#               expect_equal(nrow(p),nrow(newDataReal))
+#               expect_equal(ncol(p),ncol(stationBData)-1+1)
+#               expect_equal(typeof(p$Event),"logical")
+#
+#               m1 <- buildEDModel(x,buildModelAlgo = "NeuralNetwork",postProcessorControl = list(nStandardDeviationsEventThreshhold = 0.001))
+#               m2 <- buildEDModel(x,buildModelAlgo = "NeuralNetwork",postProcessorControl = list(nStandardDeviationsEventThreshhold = 50))
+#               p1 <- predict.NeuralNetwork(m1,newDataReal)$lastPredictedEvents
+#               p2 <- predict.NeuralNetwork(m2,newDataReal)$lastPredictedEvents
+#               sum(p1$Event)
+#               expect_true(sum(p1$Event)>=sum(p2$Event))
+#               expect_true(!any(p2$Event))
+#
+#
+#               #Check that normalization is really deactivated if setting says so
+#               x <- stationBData[100:200,-1]
+#               m <- buildEDModel(x,buildModelAlgo = "NeuralNetwork",dataPreparationControl = list(useNormalization = F))
+#               newDataReal <- stationBData[201:220,-1]
+#               p <- predict.NeuralNetwork(m,newDataReal)
+#               expect_true(any(p$predictions > 5))
+#           })
