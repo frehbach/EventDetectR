@@ -70,17 +70,17 @@ test_that("neural network prediction works",
               newDataReal <- stationBData[301:320,-1]
               p <- predict.NeuralNetwork(m,newDataReal)
               expect_equal(nrow(p$predictions),20)
-              expect_equal(ncol(p$predictions),ncol(stationBData)-1-excludedVariable)
+              expect_equal(ncol(p$predictions),(ncol(stationBData)-1-excludedVariable))
               expect_equal(anyNA(p),FALSE)
 
 
               p <- predict.NeuralNetwork(m,newDataReal)$lastPredictedEvents
               expect_equal(nrow(p),nrow(newDataReal))
-              expect_equal(ncol(p),ncol(stationBData)-1+1)
+              expect_equal(ncol(p),(ncol(stationBData)-1+1))
               expect_equal(typeof(p$Event),"logical")
 
-              m1 <- buildEDModel(x,buildModelAlgo = "NeuralNetwork",postProcessorControl = list(nStandardDeviationseventThreshold = 0.01),buildNeuralNetModelControl = list(algorithm="rprop+",hidden= 6))
-              m2 <- buildEDModel(x,buildModelAlgo = "NeuralNetwork",postProcessorControl = list(nStandardDeviationseventThreshold = 50),buildNeuralNetModelControl = list(algorithm="rprop+",hidden= 6))
+              m1 <- buildEDModel(x,buildModelAlgo = "NeuralNetwork",postProcessorControl = list(nStandardDeviationseventThreshold = 0.01),buildNeuralNetModelControl = list(algorithm="rprop+",hidden= 2))
+              m2 <- buildEDModel(x,buildModelAlgo = "NeuralNetwork",postProcessorControl = list(nStandardDeviationseventThreshold = 50),buildNeuralNetModelControl = list(algorithm="rprop+",hidden= 2))
               p1 <- predict.NeuralNetwork(m1,newDataReal)$lastPredictedEvents
               p2 <- predict.NeuralNetwork(m2,newDataReal)$lastPredictedEvents
               sum(p1$Event)
@@ -91,9 +91,12 @@ test_that("neural network prediction works",
               #Check that normalization is really deactivated if setting says so
               x <- stationBData[100:200,-1]
               m <- buildEDModel(x, dataPreparationControl = list(useNormalization = F),buildModelAlgo = "NeuralNetwork",ignoreVarianceWarning = TRUE)
+              excludedVariable <- length(m$excludedVariables)
               newDataReal <- stationBData[201:220,-1]
               p <- predict.NeuralNetwork(m,newDataReal)
-              expect_true(any(p > 5))
+              expect_equal(nrow(p$predictions),nrow(newDataReal))
+              expect_equal(ncol(p$predictions),(ncol(stationBData)-1-excludedVariable))
+
           })
 
 

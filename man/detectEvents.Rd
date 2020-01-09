@@ -78,8 +78,8 @@ ed3 <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 5,
                     verbosityLevel = 2,ignoreVarianceWarning = TRUE,
                     buildModelAlgo = "NeuralNetwork",postProcessors = "bedAlgo")
 
-   ## Multivariate  NeuralNetwork model which refits at every new data point
+   ## Multivariate NeuralNetwork model which refits at every new data point
 ed4 <- detectEvents(stationBData[100:300,-1],nIterationsRefit = 1,
-buildModelAlgo = "NeuralNetwork",postProcessors = "bedAlgo",buildNeuralNetModelControl = list(algorithm="rprop-",hidden= 2))
+buildModelAlgo = "NeuralNetwork",buildNeuralNetModelControl = list(hidden= 2))
                     }
 }

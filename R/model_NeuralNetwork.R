@@ -70,15 +70,16 @@ predict.NeuralNetwork <- function(object,newData = NULL, ...){
         #if((object$modelList[[i]])!=NULL)
         {
             # Obtain past data from model
-        previousStep <- tail(object$modelList[[i]]$data$past_data,n=1)
+        previousStep <- tail(object$modelList[[i]]$data$past_data,n=dataLength)
         inputData <-  newData[, !(names(newData) %in% unlist(object$excludedVariables))]
         # Normalze inputData
+        if(isTRUE(object$userConfig$dataPreparationControl$useNormalization)){
         min_x <- object$normalization$min_x
         max_x <- object$normalization$max_x
         for (j in 1:ncol(inputData)){
             inputData[,j] <- ((inputData[,j] - min_x[j]) / (max_x[j] - min_x[j]))
         }
-
+}
         test_input <- data.frame(inputData[,-i],past_data=previousStep)
         # Predict with the neuralnet model
         computed_value <- predict(object$modelList[[i]],test_input)
