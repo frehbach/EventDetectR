@@ -21,7 +21,10 @@ eventClassification <- function(object, newData, ...) {
     }
 
     ## Apply Normalization -----
+
     ##
+
+
     if(isTRUE(object$userConfig$dataPreparationControl$useNormalization)){
         if(object$buildModelAlgo!="NeuralNetwork")
         {
@@ -40,7 +43,7 @@ newData[,i] <- ((newData[,i] - min_x[i]) / (max_x[i] - min_x[i]))
     ## Calculate residuals from newData and predictions
     residuals <- abs(newData - object$predictions)
 
-    events <- apply((residuals > object$userConfig$postProcessorControl$nStandardDeviationsEventThreshhold),1,any)
+    events <- apply((residuals > object$userConfig$postProcessorControl$nStandardDeviationseventThreshold),1,any)
     object$eventHistory <- c(object$eventHistory, events)
 
     ## Call postprocessing interface with the calculated predictions

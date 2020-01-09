@@ -1,9 +1,9 @@
 #' detectEvents in a given data.frame
 #'
 #' detectEvents builds a prediction model (edObject) on the first 'windowSize' points of the given data x.
-#' The next nIterationRefit data-points are classified as Event or not.
+#' The next 'nIterationRefit' data-points are classified as 'Event' or not.
 #' The window is moved iteratively and the next models are fitted.
-#' The first windowSize points will always be classified as no Event and should only contain 'clean' data
+#' The first 'windowSize' points will always be classified as no Event and should only contain 'clean' data
 #'
 #' @param x data.frame, data which shall be classified as event or not
 #' @param windowSize amount of data points to consider in each prediction model
@@ -38,26 +38,25 @@
 #' def <- detectEvents(x = stationBData[1:100,-1])
 #'
 #' \donttest{
-#' ## Only refit the model after every 50th new datapoint,
+#' ## Only refit the model after every 5th new datapoint,
 #' ## have someoutput with verbosityLevel = 2 and ignore
 #' ## the variance warning
-#' ed <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
+#' ed <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 5,
 #'                    verbosityLevel = 2,ignoreVarianceWarning = TRUE)
 #'
 #' ## Switch to another model: Arima
-#' ed2 <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
+#' ed2 <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 5,
 #'                     verbosityLevel = 2,ignoreVarianceWarning = TRUE,
 #'                     buildModelAlgo = "ForecastArima")
 #'
 #'     ## Switch to multivariate model: NeuralNetwork
-#' ed3 <- detectEvents(stationBData[100:200,-1],nIterationsRefit = 50,
+#' ed3 <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 5,
 #'                     verbosityLevel = 2,ignoreVarianceWarning = TRUE,
 #'                     buildModelAlgo = "NeuralNetwork",postProcessors = "bedAlgo")
 #'
-#'    ## Switch to  user configured multivariate model: NeuralNetwork
-#' ed4 <- detectEvents(stationBData[100:200,-1],nIterationsRefit = 50,
-#'                     verbosityLevel = 2,ignoreVarianceWarning = TRUE,
-#'                     buildModelAlgo = "NeuralNetwork",postProcessors = "bedAlgo",buildNeuralNetModelControl = list(nn_algorithm="rprop-",nn_hiddenlayers = 6))
+#'    ## Multivariate  NeuralNetwork model which refits at every new data point
+#' ed4 <- detectEvents(stationBData[100:300,-1],nIterationsRefit = 1,
+#' buildModelAlgo = "NeuralNetwork",postProcessors = "bedAlgo",buildNeuralNetModelControl = list(algorithm="rprop-",hidden= 2))
 #'                     }
 detectEvents <- function(x,
                          windowSize = 100,
@@ -122,7 +121,6 @@ detectEvents <- function(x,
     if(verbosityLevel < 0){
         stop("detectEvents: verbosityLevel too small, minimum is 0")
     }
-# Added by Sowmya
     # if(any(is.na(x))){
     #     stop("detectEvents: x contains NAs. Kindly choose appropriate dataPreparators")
     # }
@@ -146,7 +144,11 @@ detectEvents <- function(x,
         }else{
             modelingData <- x[1:(index + windowSize),,drop=FALSE]
             eventPositions <- which(edModel$eventHistory)
+# Added by Sowmya to check if eventPositions exists
+if(length(eventPositions>0))
+{
             modelingData <- modelingData[-eventPositions, , drop = FALSE]
+}
             modelingData <- modelingData[(nrow(modelingData) - windowSize + 1):nrow(modelingData), , drop=FALSE]
         }
         edModel <- buildEDModel(modelingData,dataPrepators,dataPreparationControl,

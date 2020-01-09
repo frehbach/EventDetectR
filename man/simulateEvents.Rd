@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulateEvents.R
 \name{simulateEvents}
 \alias{simulateEvents}
-\title{Generates simulated events}
+\title{Imposes simulated events on the top of the data}
 \usage{
 simulateEvents(Data, Params, Event_type, Event_strength = NULL,
   Start_index = NULL, Event_duration = NULL, Percentage = NULL)
@@ -19,7 +19,7 @@ element and Event_type only contains one element the same transformation will be
 
 \item{Event_strength}{(Optional) Numeric Vector indicating the amplitude. Only valid for sinusoidal and square
 transformations. When specified for other type of transformations it will have no effect. However it must have
-the same number of elemets as Params.}
+the same number of elements as Params.}
 
 \item{Start_index}{Numeric, indicates the index where the event should start}
 
@@ -32,9 +32,8 @@ should be affected by the transformation. Either Event_duration or Percentage sh
 Matrix or data frame containing the selected columns with simulated events
 }
 \description{
-Simulates Events on columns of a data frame or a matrix by appliying different transformations.
-The events can be of type sinusoidal,
-square, binomial or ramp.
+Simulates Events on columns of a data frame or a matrix by applying different transformations.
+The events of type sinusoidal, square, binomial or ramp can be used.
 }
 \examples{
 

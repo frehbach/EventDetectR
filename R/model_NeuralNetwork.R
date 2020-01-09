@@ -1,12 +1,12 @@
 
 #' Fitting Neuralnet Models
-#' @details The Neuralnetworks are used to model the multivariate parameters through non-linear, weighted, parametrized functions. A Neuralnetwork model is formulated for each of the parameter using its own lagged values and rest of all parameters involved.
+#' @details Multivariate Neuralnetwork model is formulated for each of the parameter using its own lagged values and rest of all parameters involved. For instance, considering 3 parameters 'p1', 'p2', 'p3', the value of 'p1' at time step 'i' is calclated as \cr
+#' \code{p1[i] = p2[i] + p3[i] + p1[i-1]} \cr
+#'
 #' @param x data
 #' @param control control list with settings
-#'
 #' @return fitted multivariate neural network model
 #' @keywords internal
-#'@author Sowmya
 #' @import neuralnet
 model_NeuralNetwork <- function(x, control){
     model <- NULL
@@ -17,6 +17,14 @@ model_NeuralNetwork <- function(x, control){
     con[names(control)] <- control
     control <- con
     rm(con)
+hidden=control$hidden
+threshold <- control$threshold
+stepmax <- control$stepmax
+rep <- control$rep
+control$rep <- NULL
+control$stepmax <- NULL
+control$hidden <- NULL
+control$threshold <- NULL
 
     for(i in 1:ncol(x)){
 
@@ -25,10 +33,7 @@ model_NeuralNetwork <- function(x, control){
         model_input <- data.frame(model_input)
         n1<-names(model_input)
         nn_input <- as.formula(paste(n1[i],"~", paste(n1[!n1 %in% n1[i]], collapse = " + ")))
-        nn_model <- neuralnet(nn_input,data=model_input,hidden = control$nn_hiddenlayers, threshold = control$nn_threshold,stepmax = control$nn_stepmax, rep = control$nn_rep, startweights = control$nn_startweights,
-learningrate.limit = control$nn_learningrate.limit, learningrate.factor = control$nn_learningrate.factor, learningrate = control$nn_learningrate, lifesign = control$nn_lifesign, lifesign.step = control$nn_lifesign.step, algorithm = control$nn_algorithm, err.fct = control$nn_err.fct,
-act.fct = control$nn_act.fct, linear.output = control$nn_linear.output, exclude = control$nn_exclude,
-constant.weights = control$nn_constant.weights, likelihood = control$nn_likelihood)
+        nn_model <- neuralnet(nn_input,data=model_input,hidden=hidden,threshold=threshold, stepmax=stepmax,rep=rep,unlist(control))
 
      modelList[[paste0("model",i)]] <-nn_model
         }
@@ -64,9 +69,18 @@ predict.NeuralNetwork <- function(object,newData = NULL, ...){
     for(i in 1:length(object$modelList)){
         #if((object$modelList[[i]])!=NULL)
         {
+            # Obtain past data from model
         previousStep <- tail(object$modelList[[i]]$data$past_data,n=1)
         inputData <-  newData[, !(names(newData) %in% unlist(object$excludedVariables))]
+        # Normalze inputData
+        min_x <- object$normalization$min_x
+        max_x <- object$normalization$max_x
+        for (j in 1:ncol(inputData)){
+            inputData[,j] <- ((inputData[,j] - min_x[j]) / (max_x[j] - min_x[j]))
+        }
+
         test_input <- data.frame(inputData[,-i],past_data=previousStep)
+        # Predict with the neuralnet model
         computed_value <- predict(object$modelList[[i]],test_input)
         predictions[,i] <- as.data.frame(computed_value)[,1]
 }

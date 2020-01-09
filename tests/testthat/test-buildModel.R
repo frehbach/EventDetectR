@@ -81,8 +81,8 @@ test_that("NAs dont make you crash - prepper - start point",
               }
           })
 
-context("buildModel NA Crashes - modelAlgo")
-test_that("NAs dont make you crash - modelAlgo",
+context("buildModel NA Crashes - modelAlgo- NN")
+test_that("NAs dont make you crash - modelAlgo-NN",
           {
               x <- stationBData[1000:2000,-1]
 

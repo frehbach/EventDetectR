@@ -18,9 +18,7 @@ fitted multivariate neural network model
 Fitting Neuralnet Models
 }
 \details{
-The Neuralnetworks are used to model the multivariate parameters through non-linear, weighted, parametrized functions. A Neuralnetwork model is formulated for each of the parameter using its own lagged values and rest of all parameters involved.
-}
-\author{
-Sowmya
+Multivariate Neuralnetwork model is formulated for each of the parameter using its own lagged values and rest of all parameters involved. For instance, considering 3 parameters 'p1', 'p2', 'p3', the value of 'p1' at time step 'i' is calclated as \cr
+\code{p1[i] = p2[i] + p3[i] + p1[i-1]} \cr
 }
 \keyword{internal}
