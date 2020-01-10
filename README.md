@@ -1,7 +1,7 @@
 # EventDetectR <img src="man/figures/eventdetectr-logo.png" align="right" width="181" height="209" alt="EventDetectR Logo" />
 ## General Info
 [EventDetectR](https://frehbach.github.io/EventDetectR/) is an R-package for simulating, detecting and classifiying events in time-series data.
-It aims to combine multiple well-known R-packages like the forecast package to deliver an easily configurable tool for event detection.
+It aims to combine multiple well-known R-packages like the forecast, neuralnet package to deliver an easily configurable tool for event detection.
 
 ## Current Project Status
 <a href="http://www.repostatus.org/#wip"><img src="http://www.repostatus.org/badges/latest/wip.svg" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public." /></a>
@@ -25,12 +25,13 @@ The main function of the EventDetectR package is:
 ```R
 detectEvents <- function(x,
                          windowSize = 100,
-                         nIterationsRefit = 50,
+                         nIterationsRefit = 1,
                          verbosityLevel = 0,
                          dataPrepators = "ImputeTSInterpolation",
                          dataPreparationControl = list(),
                          buildModelAlgo = "ForecastETS",
                          buildModelControl = list(),
+                         buildNeuralNetModelControl=list(),
                          postProcessors = "bedAlgo",
                          postProcessorControl = list(),
                          ignoreVarianceWarning = TRUE)

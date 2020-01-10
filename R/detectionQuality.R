@@ -12,9 +12,9 @@
 #' @export
 #'
 #' @examples
-#' train <- geccoIC2018Train[15000:18000,]
-#' edObject <- detectEvents(train[,-c(1,11)],windowSize = 500,
-#'                 nIterationsRefit = 200,verbosityLevel = 2,
+#' train <- geccoIC2018Train[15000:17000,]
+#' edObject <- detectEvents(train[,-c(1,11)],windowSize = 1000,
+#'                 nIterationsRefit = 500,verbosityLevel = 2,
 #'                 postProcessorControl = list(nStandardDeviationseventThreshold = 3))
 #' qualityStatistics(edObject, train$EVENT)
 qualityStatistics <- function(edObject, reference){

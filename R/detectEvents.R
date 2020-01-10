@@ -8,7 +8,7 @@
 #' @param x data.frame, data which shall be classified as event or not
 #' @param windowSize amount of data points to consider in each prediction model
 #' @param nIterationsRefit amount of points into the future which will be predicted without fitting a new model.
-#' E.g. if nIterationsRefit = 5 then the next five dataPoints are classified without refitting.
+#' E.g. if nIterationsRefit = 10 then the next five dataPoints are classified without refitting.
 #' @param verbosityLevel Print output of function progress. 0 -> No output,
 #' 1 -> every 100th model building iteration, 2 -> every 10th, 3 -> every iteration
 #' @param dataPrepators string or vector of strings, that defines which preparators to use.
@@ -38,25 +38,19 @@
 #' def <- detectEvents(x = stationBData[1:100,-1])
 #'
 #' \donttest{
-#' ## Only refit the model after every 5th new datapoint,
+#' ## Refit the model at every new datapoint,
 #' ## have someoutput with verbosityLevel = 2 and ignore
 #' ## the variance warning
-#' ed <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 5,
+#' ed <- detectEvents(stationBData[1:110,-1],nIterationsRefit = 1,
 #'                    verbosityLevel = 2,ignoreVarianceWarning = TRUE)
 #'
 #' ## Switch to another model: Arima
-#' ed2 <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 5,
-#'                     verbosityLevel = 2,ignoreVarianceWarning = TRUE,
+#' ed2 <- detectEvents(stationBData[1:110,-1],nIterationsRefit = 1,
+#'                     verbosityLevel = 0,ignoreVarianceWarning = TRUE,
 #'                     buildModelAlgo = "ForecastArima")
 #'
-#'     ## Switch to multivariate model: NeuralNetwork
-#' ed3 <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 5,
-#'                     verbosityLevel = 2,ignoreVarianceWarning = TRUE,
-#'                     buildModelAlgo = "NeuralNetwork",postProcessors = "bedAlgo")
-#'
-#'    ## Multivariate NeuralNetwork model which refits at every new data point
-#' ed4 <- detectEvents(stationBData[100:300,-1],nIterationsRefit = 1,
-#' buildModelAlgo = "NeuralNetwork",buildNeuralNetModelControl = list(hidden= 2))
+#'    ## Switch to multivariate model: NeuralNetwork
+#' ed3 <- detectEvents(stationBData[1:110,-1],nIterationsRefit = 1, buildModelAlgo = "NeuralNetwork")
 #'                     }
 detectEvents <- function(x,
                          windowSize = 100,

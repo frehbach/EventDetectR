@@ -6,7 +6,6 @@
 #'
 #' @name EventDetectR-package
 #'
-#' @references ...
 #'
 #' @docType package
 #' @import stats
