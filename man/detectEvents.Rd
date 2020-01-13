@@ -4,10 +4,11 @@
 \alias{detectEvents}
 \title{detectEvents in a given data.frame}
 \usage{
-detectEvents(x, windowSize = 100, nIterationsRefit = 50,
+detectEvents(x, windowSize = 100, nIterationsRefit = 1,
   verbosityLevel = 0, dataPrepators = "ImputeTSInterpolation",
   dataPreparationControl = list(), buildModelAlgo = "ForecastETS",
-  buildModelControl = list(), postProcessors = "bedAlgo",
+  buildForecastModelControl = list(),
+  buildNeuralNetModelControl = list(), postProcessors = "bedAlgo",
   postProcessorControl = list(), ignoreVarianceWarning = TRUE)
 }
 \arguments{
@@ -16,7 +17,7 @@ detectEvents(x, windowSize = 100, nIterationsRefit = 50,
 \item{windowSize}{amount of data points to consider in each prediction model}
 
 \item{nIterationsRefit}{amount of points into the future which will be predicted without fitting a new model.
-E.g. if nIterationsRefit = 5 then the next five dataPoints are classified without refitting.}
+E.g. if nIterationsRefit = 10 then the next five dataPoints are classified without refitting.}
 
 \item{verbosityLevel}{Print output of function progress. 0 -> No output,
 1 -> every 100th model building iteration, 2 -> every 10th, 3 -> every iteration}
@@ -32,8 +33,9 @@ to the dataPreparators.}
 \item{buildModelAlgo}{string, model name to be used. All possible preparators
 are listed via: getSupportedModels().}
 
-\item{buildModelControl}{list, control-list containing all additional parameters that shall be passed
-to the modelling algo.}
+\item{buildForecastModelControl}{list, control-list containing all additional parameters that shall be passed to the  forecast modelling algo.}
+
+\item{buildNeuralNetModelControl}{list, control-list containing all additional parameters that shall be passed to the neuralnet modelling algo.}
 
 \item{postProcessors}{string or vector of strings, that defines which postProcessors to use.
 Lists are not accepted. Usage Example: postProcessors = "bedAlgo" results in the usage of
@@ -51,23 +53,27 @@ edsResults edObject, list of results. $classification -> data.frame containing t
 }
 \description{
 detectEvents builds a prediction model (edObject) on the first 'windowSize' points of the given data x.
-The next nIterationRefit data-points are classified as Event or not.
+The next 'nIterationRefit' data-points are classified as 'Event' or not.
 The window is moved iteratively and the next models are fitted.
-The first windowSize points will always be classified as no Event and should only contain 'clean' data
+The first 'windowSize' points will always be classified as no Event and should only contain 'clean' data
 }
 \examples{
 ## Run event detection with default settings:
 def <- detectEvents(x = stationBData[1:100,-1])
 
 \donttest{
-## Only refit the model after every 50th new datapoint,
+## Refit the model at every new datapoint,
 ## have someoutput with verbosityLevel = 2 and ignore
 ## the variance warning
-ed <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
+ed <- detectEvents(stationBData[1:110,-1],nIterationsRefit = 1,
                    verbosityLevel = 2,ignoreVarianceWarning = TRUE)
 
 ## Switch to another model: Arima
-ed2 <- detectEvents(stationBData[1000:2000,-1],nIterationsRefit = 50,
-                    verbosityLevel = 2,ignoreVarianceWarning = TRUE,
-                    buildModelAlgo = "ForecastArima")}
+ed2 <- detectEvents(stationBData[1:110,-1],nIterationsRefit = 1,
+                    verbosityLevel = 0,ignoreVarianceWarning = TRUE,
+                    buildModelAlgo = "ForecastArima")
+
+   ## Switch to multivariate model: NeuralNetwork
+ed3 <- detectEvents(stationBData[1:110,-1],nIterationsRefit = 1, buildModelAlgo = "NeuralNetwork")
+                    }
 }

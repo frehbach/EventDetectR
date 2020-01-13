@@ -3,11 +3,10 @@
 #' Detect events/ anomalies in time-series data.
 
 #'
-#' @details The EventDetectR package is a tool to detect events in time-series data. It combines multiple well-known R packages like 'forecast' to deliver an easily configurable tool for event detection.
+#' @details The EventDetectR package enables detection of events/ anomalies in multivariate time-series data. It combines multiple well-known R packages like 'forecast, 'neuralnet' to deliver an easily configurable tool for event detection.
 #'
 #' @name EventDetectR-package
 #'
-#' @references ...
 #'
 #' @docType package
 #' @import stats

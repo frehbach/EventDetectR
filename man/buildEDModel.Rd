@@ -6,7 +6,8 @@
 \usage{
 buildEDModel(x, dataPrepators = "ImputeTSInterpolation",
   dataPreparationControl = list(), buildModelAlgo = "ForecastETS",
-  buildModelControl = list(), postProcessors = "bedAlgo",
+  buildForecastModelControl = list(),
+  buildNeuralNetModelControl = list(), postProcessors = "bedAlgo",
   postProcessorControl = list(), ignoreVarianceWarning = FALSE,
   oldModel = NULL)
 }
@@ -26,8 +27,9 @@ to the dataPreparators.}
 \item{buildModelAlgo}{string, model name to be used. All possible preparators
 are listed via: getSupportedModels().}
 
-\item{buildModelControl}{list, control-list containing all additional parameters that shall be passed
-to the modelling algo.}
+\item{buildForecastModelControl}{list, control-list containing all additional parameters that shall be passed to forecast modeling algorithm}
+
+\item{buildNeuralNetModelControl}{list, control-list containing all additional parameters that shall be passed to the neuralnet modeling algorithm}
 
 \item{postProcessors}{string or vector of strings, that defines which postProcessors to use.
 Lists are not accepted. Usage Example: postProcessors = "bedAlgo" results in the usage of
@@ -55,9 +57,12 @@ to detect events in given data.
 \examples{
 
 ## build a simple event detection model with standard configuration
-x <- stationBData[1:2000,-1]
-buildEDModel(x)
+x <- stationBData[100:200,-1]
+buildEDModel(x,ignoreVarianceWarning = TRUE)
 
 ## Set up a more complex event detection model defining some additional configuration
-buildEDModel(x, dataPrepators = "ImputeTSMean", buildModelAlgo = "ForecastArima")
+buildEDModel(x, buildModelAlgo = "ForecastArima",ignoreVarianceWarning = TRUE)
+
+ ## Set up a multivariate neuralnetwork model
+buildEDModel(x, buildModelAlgo = "NeuralNetwork",ignoreVarianceWarning = TRUE)
 }

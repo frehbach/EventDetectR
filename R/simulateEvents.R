@@ -1,8 +1,7 @@
-#'Generates simulated events
+#'Imposes simulated events on the top of the data
 #'
-#'Simulates Events on columns of a data frame or a matrix by appliying different transformations.
-#'The events can be of type sinusoidal,
-#'square, binomial or ramp.
+#'Simulates Events on columns of a data frame or a matrix by applying different transformations.
+#'The events of type sinusoidal, square, binomial or ramp can be used.
 #'
 #'@param Data Data frame or matrix containing the data to which the events will be introduced
 #'@param Params Numeric vector or vector of strings indicating the column names (in case Data is a data frame) or the column
@@ -12,7 +11,7 @@
 #'element and Event_type only contains one element the same transformation will be applied to all given Params
 #'@param Event_strength (Optional) Numeric Vector indicating the amplitude. Only valid for sinusoidal and square
 #'transformations. When specified for other type of transformations it will have no effect. However it must have
-#'the same number of elemets as Params.
+#'the same number of elements as Params.
 #'@param Start_index Numeric, indicates the index where the event should start
 #'@param Event_duration Numeric, indicates the number of steps the transformation should last. Default is 100
 #'@param Percentage (Optional) Numeric value from 0 to 1. Alternative input indicating the percentage of data that

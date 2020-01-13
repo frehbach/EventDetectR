@@ -5,6 +5,8 @@ TODO / Upcoming:
 - useNormalization parameter in preprocessing cntrl list
 
 NEWS:
+V0.3.4 - Added multivariate neuralnetwork movingWindow based event detection
 V0.3.3 - Improved BED implementation, Plotting Functions
 V0.3.1 - Added more Forecast models, added ed.print
 V0.3.0 - Added eventDetect automatic movingWindow based event detection over a whole dataset
+
