@@ -4,12 +4,20 @@
 \alias{detectEvents}
 \title{detectEvents in a given data.frame}
 \usage{
-detectEvents(x, windowSize = 100, nIterationsRefit = 1,
-  verbosityLevel = 0, dataPrepators = "ImputeTSInterpolation",
-  dataPreparationControl = list(), buildModelAlgo = "ForecastETS",
+detectEvents(
+  x,
+  windowSize = 100,
+  nIterationsRefit = 1,
+  verbosityLevel = 0,
+  dataPrepators = "ImputeTSInterpolation",
+  dataPreparationControl = list(),
+  buildModelAlgo = "ForecastETS",
   buildForecastModelControl = list(),
-  buildNeuralNetModelControl = list(), postProcessors = "bedAlgo",
-  postProcessorControl = list(), ignoreVarianceWarning = TRUE)
+  buildNeuralNetModelControl = list(),
+  postProcessors = "bedAlgo",
+  postProcessorControl = list(),
+  ignoreVarianceWarning = TRUE
+)
 }
 \arguments{
 \item{x}{data.frame, data which shall be classified as event or not}

@@ -138,7 +138,7 @@ detectEvents <- function(x,
         }else{
             modelingData <- x[1:(index + windowSize),,drop=FALSE]
             eventPositions <- which(edModel$eventHistory)
-# Added by Sowmya to check if eventPositions exists
+# Added to check if eventPositions exists
 if(length(eventPositions>0))
 {
             modelingData <- modelingData[-eventPositions, , drop = FALSE]

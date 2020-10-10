@@ -4,8 +4,15 @@
 \alias{simulateEvents}
 \title{Imposes simulated events on the top of the data}
 \usage{
-simulateEvents(Data, Params, Event_type, Event_strength = NULL,
-  Start_index = NULL, Event_duration = NULL, Percentage = NULL)
+simulateEvents(
+  Data,
+  Params,
+  Event_type,
+  Event_strength = NULL,
+  Start_index = NULL,
+  Event_duration = NULL,
+  Percentage = NULL
+)
 }
 \arguments{
 \item{Data}{Data frame or matrix containing the data to which the events will be introduced}

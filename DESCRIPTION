@@ -1,15 +1,15 @@
 Package: EventDetectR
-Version: 0.3.4
+Version: 0.3.5
 Title: Event Detection Framework
 Description: Detect events in time-series data. Combines multiple well-known R packages like 'forecast' and 'neuralnet' to deliver an easily configurable tool for multivariate event detection.
 Authors@R: 
   c(
   person("Margarita", "Rebolledo", email="margarita.rebolledo@th-koeln.de", role=c("aut")),
-  person("Sowmya", "Chandrasekaran", email="sowzz.17@gmail.com", role=c("aut")),
-  person("Frederik", "Rehbach", email="frederik.re@gmail.com", role=c("aut", "cre")),
+  person("Sowmya", "Chandrasekaran", email="sowzz.17@gmail.com", role=c("aut", "cre")),
+  person("Frederik", "Rehbach", email="frederik.re@gmail.com", role=c("aut")),
   person("Steffen", "Moritz", email="steffen.moritz10@gmail.com", role=c("aut"), comment = c(ORCID = "0000-0002-0085-1804"))
   )
-Maintainer: Sowmya Chandrasekaran<sowzz.17@gmail.com>
+Encoding: UTF-8
 LazyData: yes
 Type: Package
 ByteCompile: TRUE
@@ -21,4 +21,4 @@ Depends:
 Imports: imputeTS, forecast, ggplot2, gridExtra, neuralnet
 Suggests: testthat, utils, caret, e1071
 License: GPL-3
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1

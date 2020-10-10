@@ -4,12 +4,18 @@
 \alias{buildEDModel}
 \title{build Event Detection Model}
 \usage{
-buildEDModel(x, dataPrepators = "ImputeTSInterpolation",
-  dataPreparationControl = list(), buildModelAlgo = "ForecastETS",
+buildEDModel(
+  x,
+  dataPrepators = "ImputeTSInterpolation",
+  dataPreparationControl = list(),
+  buildModelAlgo = "ForecastETS",
   buildForecastModelControl = list(),
-  buildNeuralNetModelControl = list(), postProcessors = "bedAlgo",
-  postProcessorControl = list(), ignoreVarianceWarning = FALSE,
-  oldModel = NULL)
+  buildNeuralNetModelControl = list(),
+  postProcessors = "bedAlgo",
+  postProcessorControl = list(),
+  ignoreVarianceWarning = FALSE,
+  oldModel = NULL
+)
 }
 \arguments{
 \item{x}{data.frame containing initial data on which the model will be fitted.

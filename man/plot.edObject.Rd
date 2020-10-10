@@ -4,8 +4,7 @@
 \alias{plot.edObject}
 \title{Plot an Event Detection Object}
 \usage{
-\method{plot}{edObject}(x, varsToPlot = names(edObject$classification),
-  ...)
+\method{plot}{edObject}(x, varsToPlot = names(edObject$classification), ...)
 }
 \arguments{
 \item{x}{edObject}

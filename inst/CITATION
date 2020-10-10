@@ -1,11 +1,13 @@
-year <- sub("-.*", "", meta$Date)
-vers <- paste("R package version", meta$Version)
+year <- 2019
+vers <- paste("R package version", year)
 
 citHeader("To cite the EventDetectR package, use:")
 
 bibentry(bibtype = "Manual",
   title = "EventDetectR",
-  author = personList(as.person("Steffen Moritz"), as.person("Frederik Rehbach")),
+  author = personList(as.person("Sowmya Chandrasekaran"),as.person("Steffen Moritz"), as.person("Margarita Rebolledo"),as.person("Frederik Rehbach")),
   year = year,
   note = vers,
+  organization = "Institute for Data Science, Engineering, and Analytics, Technische Hochschule Koeln",
+  address = "Steinmüllerallee 1, 51643 Gummersbach",
   url = "https://CRAN.R-project.org/package=EventDetectR")
