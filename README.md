@@ -17,7 +17,9 @@ require(devtools)
 install_github("frehbach/EventDetectR")
 ```
 
-Soon the package will also be available on CRAN.
+The package is available on CRAN and can be installed:
+
+install.packages('EventDetectR')
 
 ## Usage
 The main function of the EventDetectR package is:
@@ -69,7 +71,7 @@ getDefaultModelControl()
 getDefaultPostControl()
 ```
 
-The event classification itself is shown in the graph below. #TODO make this graph look nice
+The event classification itself is shown in the graph below. 
 
 ![Alt text](doc/Ver2_windowimage.png?raw=true "detectEvents.R")
 
@@ -97,7 +99,7 @@ Since it was not specified on the function call the event duration defaults to 1
 -------------
 
 ## Graphical User Interface
-A graphical user interface (GUI) for the EventDetectR package is currently in development. 
+A graphical user interface (GUI) for the EventDetectR package is also available. 
 Check out the most recent status at: [EventDetectGUI](https://github.com/frehbach/EventDetectGUI)
 
 -------------
